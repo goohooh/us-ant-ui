@@ -1,0 +1,101 @@
+import Link from 'next/link';
+import Autocomplete from './Autocomplete';
+import StockInfo from './StockInfo';
+
+const headerStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  padding: '14px 20px',
+  width: '100%',
+  height: '70',
+  background: '#e0e5ec',
+  zIndex: 1000
+};
+
+const linkStyle = {
+  width: 60,
+  marginRight: 15
+};
+
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      height: window.innerHeight,
+      hideInput: false,
+    };
+    this.handleScroll = this.handleScroll.bind(this);
+    this.inputRef = React.createRef();
+  }
+  handleScroll() {
+    // const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+    // const body = document.body;
+    // const html = document.documentElement;
+    // const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    // const windowBottom = windowHeight + window.pageYOffset;
+    if (window.pageYOffset >= 70) {
+      this.setState({
+        hideInput: true,
+      })
+    } else {
+      this.setState({
+        hideInput: false,
+      })
+    }
+    // if (windowBottom >= docHeight) {
+    //     this.setState({
+    //         message: 'bottom reached'
+    //     });
+    // } else {
+    //     this.setState({
+    //         message: 'not at bottom'
+    //     });
+    // }
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+      window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  render() {
+    return (
+      <div style={headerStyle} className="flex flex-row justify-between items-center shadow-sm">
+        <Link href="/">
+          <a style={linkStyle}>
+            <img src="/logo.png" alt="logo" />
+          </a>
+        </Link>
+        {
+          this.state.hideInput
+            ? <StockInfo {...this.props} onClick={() => {
+              this.setState({ hideInput: false });
+              setTimeout(() => {
+                this.inputRef.current.input.focus()
+              })
+            }} />
+            : <Autocomplete {...this.props} ref={this.inputRef} />
+        }
+        <span onClick={() => this.props.setIsMenuOpened(true)} style={{ marginLeft: 15}}>My</span>
+      </div>
+    );
+  }
+}
+
+export default Header;
+
+// export default props => {
+//   return (
+//     <div style={headerStyle} className="flex flex-row justify-between items-center shadow-sm">
+//       <Link href="/">
+//         <a style={linkStyle}>미국개미</a>
+//       </Link>
+//       <Autocomplete {...props} />
+//       <span style={{ marginLeft: 15}}>My</span>
+//     </div>
+//   );
+// };
