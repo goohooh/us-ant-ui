@@ -6,8 +6,8 @@ export default ({ isMenuOpened, setIsMenuOpened }) => (
         zIndex: 10000,
         backgroundColor: "rgba(0 ,0 ,0, 0.6)"
     }}>
-        <div className="fixed top-0 w-4/5 h-screen bg-white p-4 box-border transition duration-100" style={{
-            right: isMenuOpened ? "0%" : "-100%",
+        <div className="fixed top-0 w-4/5 h-screen bg-white p-4 box-border transition duration-300" style={{
+            transform: isMenuOpened ? "translateX(0)" : "translateX(100%)",
             zIndex: 10001,
         }}>
             <div className="flex justify-between">

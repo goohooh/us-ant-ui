@@ -2,28 +2,18 @@ import fetch from 'isomorphic-unfetch';
 import Layout from '../components/Layout';
 import Posts from '../components/Posts';
 import AreaChart from '../components/AreaChart';
-import { timeParse } from "d3-time-format";
-import { tsvParse } from  "d3-dsv";
-import withData from '../hoc/apolloClient';
-
-function parseData(parse) {
-	return function(d) {
-		d.date = parse(d.date);
-		d.open = +d.open;
-		d.high = +d.high;
-		d.low = +d.low;
-		d.close = +d.close;
-		d.volume = +d.volume;
-
-		return d;
-	};
-}
-
-const parseDate = timeParse("%Y-%m-%d");
 
 const Index = ({ chartData, stock }) => {
+    const gap = stock.latestPrice - stock.previousClose;
+    const up = gap > 0;
     return (
         <Layout stock={stock}>
+            <div class="container px-4 pt-1 flex">
+                <h3 className="mr-2 text-xl">{stock.latestPrice}$</h3>
+                <span className={"text-base " +  
+                    (up ? "text-blue-700" : "text-red-600")
+                } dangerouslySetInnerHTML={{__html: `${up ? "&#9650;" : "&#9660;"} ${gap.toFixed(2)}$ ${(gap / stock.latestPrice * 100).toFixed(2)}%`}}></span>
+            </div>
             <AreaChart chartData={chartData}  />
             <Posts />
         </Layout>

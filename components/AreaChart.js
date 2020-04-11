@@ -84,8 +84,6 @@ let AreaChart = props => {
 		date: new Date(d.date),
 	}));
 
-	const margin = { left: 80, right: 80, top: 30, bottom: 50 };
-
 	const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
 		d => d.date
 	);
@@ -101,8 +99,9 @@ let AreaChart = props => {
 
 	return (
 		<div ref={ref}>
+			<h3></h3>
 		<ChartCanvas ratio={props.ratio} width={width || props.width} height={200}
-			margin={{ left: 16, right: 50, top: 20, bottom: 30 }}
+			margin={{ left: 16, right: 16, top: 20, bottom: 30 }}
 			seriesName="MSFT"
 			data={data} type={"svg"}
 			xAccessor={xAccessor}
@@ -113,9 +112,10 @@ let AreaChart = props => {
 			<Chart id={1} yExtents={d => [d.high, d.low]} height={150}>
 				<defs>
 					<linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
-						<stop offset="0%" stopColor="#b5d0ff" stopOpacity={0.2} />
-						<stop offset="70%" stopColor="#6fa4fc" stopOpacity={0.4} />
-						<stop offset="100%"  stopColor="#4286f4" stopOpacity={0.8} />
+						<stop offset="0%" stopColor="#fff" stopOpacity={0.2} />
+						{/* <stop offset="70%" stopColor="#6fa4fc" stopOpacity={0.4} /> */}
+						{/* <stop offset="100%"  stopColor="#4286f4" stopOpacity={0.8} /> */}
+						<stop offset="100%"  stopColor="#fff" stopOpacity={0.8} />
 					</linearGradient>
 				</defs>
 				<XAxis axisAt="bottom" orient="bottom" ticks={6}/>
@@ -127,13 +127,13 @@ let AreaChart = props => {
 					interpolation={curveMonotoneX}
 					canvasGradient={canvasGradient}
 				/>
-				<EdgeIndicator
+				{/* <EdgeIndicator
 					itemType="last"
 					orient="right"
 					edgeAt="right"
 					yAccessor={d => d.close}
 					fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
-				/>
+				/> */}
 				<HoverTooltip
 					yAccessor={xAccessor()}
 					tooltipContent={tooltipContent([])}

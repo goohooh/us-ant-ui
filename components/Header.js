@@ -29,11 +29,6 @@ class Header extends React.Component {
     this.inputRef = React.createRef();
   }
   handleScroll() {
-    // const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-    // const body = document.body;
-    // const html = document.documentElement;
-    // const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-    // const windowBottom = windowHeight + window.pageYOffset;
     if (window.pageYOffset >= 70) {
       this.setState({
         hideInput: true,
@@ -43,15 +38,6 @@ class Header extends React.Component {
         hideInput: false,
       })
     }
-    // if (windowBottom >= docHeight) {
-    //     this.setState({
-    //         message: 'bottom reached'
-    //     });
-    // } else {
-    //     this.setState({
-    //         message: 'not at bottom'
-    //     });
-    // }
   }
 
   componentDidMount() {
@@ -87,15 +73,3 @@ class Header extends React.Component {
 }
 
 export default Header;
-
-// export default props => {
-//   return (
-//     <div style={headerStyle} className="flex flex-row justify-between items-center shadow-sm">
-//       <Link href="/">
-//         <a style={linkStyle}>미국개미</a>
-//       </Link>
-//       <Autocomplete {...props} />
-//       <span style={{ marginLeft: 15}}>My</span>
-//     </div>
-//   );
-// };
