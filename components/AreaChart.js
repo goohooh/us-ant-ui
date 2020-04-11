@@ -145,6 +145,11 @@ let AreaChart = props => {
 				<BarSeries yAccessor={d => d.volume} stroke={false} fill={(d) => d.close > d.open ? "#6BA583" : "red"} />
 			</Chart>
 		</ChartCanvas>
+		<div className="flex flex-row-reverse px-4">
+			<button class="bg-green-500 hover:bg-green-700 text-xs text-white font-bold py-1 px-3 rounded-full border border-green-700">
+				공유하기	
+			</button>
+		</div>
 		</div>
 	);
 }

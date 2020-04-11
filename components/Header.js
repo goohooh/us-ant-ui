@@ -15,6 +15,8 @@ const headerStyle = {
 
 const linkStyle = {
   width: 60,
+  flexBasis: 60,
+  flexShrink: 0,
   marginRight: 15
 };
 
@@ -66,7 +68,7 @@ class Header extends React.Component {
             }} />
             : <Autocomplete {...this.props} ref={this.inputRef} />
         }
-        <span onClick={() => this.props.setIsMenuOpened(true)} style={{ marginLeft: 15}}>My</span>
+        <span onClick={() => this.props.setIsMenuOpened(true)} style={{ marginLeft: 15, flexShrink: 0 }}>My</span>
       </div>
     );
   }
