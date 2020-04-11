@@ -8,7 +8,7 @@ const Index = ({ chartData, stock }) => {
     const up = gap > 0;
     return (
         <Layout stock={stock}>
-            <div class="container px-4 pt-1 flex">
+            <div className="container px-4 pt-1 flex">
                 <h3 className="mr-2 text-xl">{stock.latestPrice}$</h3>
                 <span className={"text-base " +  
                     (up ? "text-blue-700" : "text-red-600")
