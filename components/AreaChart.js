@@ -99,7 +99,6 @@ let AreaChart = props => {
 
 	return (
 		<div ref={ref}>
-			<h3></h3>
 		<ChartCanvas ratio={props.ratio} width={width || props.width} height={200}
 			margin={{ left: 16, right: 16, top: 20, bottom: 30 }}
 			seriesName="MSFT"
@@ -117,13 +116,10 @@ let AreaChart = props => {
 				<defs>
 					<linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
 						<stop offset="0%" stopColor="#fff" stopOpacity={0.2} />
-						{/* <stop offset="70%" stopColor="#6fa4fc" stopOpacity={0.4} /> */}
-						{/* <stop offset="100%"  stopColor="#4286f4" stopOpacity={0.8} /> */}
 						<stop offset="100%"  stopColor="#fff" stopOpacity={0.8} />
 					</linearGradient>
 				</defs>
 				<XAxis axisAt="bottom" orient="bottom" ticks={6}/>
-				<YAxis axisAt="right" orient="left" showTicks={false} ticks={1} />
 				<AreaSeries
 					yAccessor={d => d.close}
 					fill="url(#MyGradient)"
