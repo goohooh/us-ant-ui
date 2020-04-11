@@ -108,6 +108,10 @@ let AreaChart = props => {
 			xScale={xScale}
 			displayXAccessor={displayXAccessor}
 			xExtents={xExtents}
+			mouseMoveEvent={false}
+			panEvent={false}
+			zoomEvent={false}
+			clamp={false}
 		>
 			<Chart id={1} yExtents={d => [d.high, d.low]} height={150}>
 				<defs>
@@ -142,7 +146,7 @@ let AreaChart = props => {
 			</Chart>
 			<Chart id={2} origin={(w, h) => [0, h - 50]} height={50} yExtents={d => d.volume}>
 				<YAxis axisAt="left" orient="left" showTicks={false} ticks={1} tickFormat={format(".2s")}/>
-				<BarSeries yAccessor={d => d.volume} fill={(d) => d.close > d.open ? "#6BA583" : "red"} />
+				<BarSeries yAccessor={d => d.volume} stroke={false} fill={(d) => d.close > d.open ? "#6BA583" : "red"} />
 			</Chart>
 		</ChartCanvas>
 		</div>
