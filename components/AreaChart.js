@@ -95,7 +95,7 @@ let AreaChart = props => {
 	const end = xAccessor(data[Math.max(0, data.length - 150)]);
 	const xExtents = [start, end];
 
-	const [ref, { width, height }] = useDimensions();
+	const [ref, { width, _ }] = useDimensions();
 
 	return (
 		<div ref={ref}>
@@ -146,13 +146,13 @@ let AreaChart = props => {
 			</Chart>
 		</ChartCanvas>
 		<div className="flex flex-row-reverse px-4">
-			<button class="bg-green-500 hover:bg-green-700 text-xs text-white font-bold py-1 px-3 rounded-full border border-green-700">
+			<button className="bg-green-500 hover:bg-green-700 text-xs text-white font-bold py-1 px-3 rounded-full border border-green-700">
 				공유하기	
 			</button>
 		</div>
 		</div>
 	);
-}
+};
 
 
 // AreaChart.propTypes = {
