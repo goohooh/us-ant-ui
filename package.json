@@ -19,6 +19,7 @@
     "d3-dsv": "^1.2.0",
     "d3-format": "^1.4.3",
     "d3-time-format": "^2.2.3",
+    "draft-js": "^0.11.5",
     "fxjs": "^0.15.0",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
@@ -31,7 +32,9 @@
     "react-dom": "^16.13.0",
     "react-offcanvas": "^0.4.0",
     "react-stockcharts": "^0.7.8",
-    "react-use-dimensions": "^1.2.1"
+    "react-use-dimensions": "^1.2.1",
+    "slate": "^0.57.1",
+    "slate-react": "^0.57.1"
   },
   "devDependencies": {
     "postcss-preset-env": "^6.7.0",

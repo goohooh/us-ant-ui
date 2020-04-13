@@ -111,6 +111,7 @@ let AreaChart = props => {
 			panEvent={false}
 			zoomEvent={false}
 			clamp={false}
+			// onLoadMore={this.handleDownloadMore}
 		>
 			<Chart id={1} yExtents={d => [d.high, d.low]} height={150}>
 				<defs>
