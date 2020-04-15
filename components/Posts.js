@@ -31,17 +31,6 @@ const Posts = () => {
             <ul className="posts">
             {data.rates.map((item, idx) => (
                 <PostItem key={idx} item={item} id={idx} />
-                // <li key={idx} className="posts__item border-gray-300 p-2">
-                //     <Link href={{ pathname: "/posts/[id]", query: { ...router.query }}} as={{pathname: `/posts/${idx}`, query: { ...router.query }}} >
-                //         <a className="block">
-                //             <h4 className="text-base">{`${currency}, ${rate}`}</h4>
-                //             <div className="flex justify-between">
-                //             <span className="text-sm text-gray-600">{`${currency}`}</span>
-                //             <span className="text-xs text-gray-400">{new Date().toDateString()}</span>
-                //             </div>
-                //         </a>
-                //     </Link>
-                // </li>
             ))}
             </ul>
         </div>

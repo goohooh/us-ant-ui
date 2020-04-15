@@ -1,5 +1,5 @@
 export default ({ comment }) => (
-    <div className="container p-4">
+    <div className="pb-2">
         <div className="rounded shadow-md bg-white">
             <div className="p-2">
             <div className="text-xs flex justify-between mb-2">
