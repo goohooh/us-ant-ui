@@ -1,13 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import { createEditor } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react'
+import Editor from "../../components/editor/editor";
 
-export default () => {
-    const editor = useMemo(() => withReact(createEditor()), [])
-    const [value, setValue] = useState([])
-    return (
-        <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-            <Editable />
-        </Slate>
-    )
-};
+export default () => (
+    <div className="container p-4 ">
+        <Editor />
+        <div className="mt-3 flex flex-row-reverse">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded shadow-md">글쓰기</button>
+        </div>
+    </div>
+);

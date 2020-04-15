@@ -20,9 +20,11 @@
     "d3-format": "^1.4.3",
     "d3-time-format": "^2.2.3",
     "draft-js": "^0.11.5",
+    "emotion": "^10.0.27",
     "fxjs": "^0.15.0",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
+    "is-hotkey": "^0.1.6",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.0",
     "next-with-apollo": "^5.0.0",
@@ -34,6 +36,7 @@
     "react-stockcharts": "^0.7.8",
     "react-use-dimensions": "^1.2.1",
     "slate": "^0.57.1",
+    "slate-history": "^0.57.1",
     "slate-react": "^0.57.1"
   },
   "devDependencies": {
