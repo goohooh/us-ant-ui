@@ -2,6 +2,7 @@ import fetch from 'isomorphic-unfetch';
 import Layout from '../components/Layout';
 import Posts from '../components/Posts';
 import AreaChart from '../components/AreaChart';
+import { TradingViewEmbed, widgetType } from "react-tradingview-embed";
 
 const Index = ({ chartData, stock }) => {
     const gap = stock.latestPrice - stock.previousClose;
@@ -15,6 +16,15 @@ const Index = ({ chartData, stock }) => {
                 } dangerouslySetInnerHTML={{__html: `${up ? "&#9650;" : "&#9660;"} ${gap.toFixed(2)}$ ${(gap / stock.latestPrice * 100).toFixed(2)}%`}}></span>
             </div>
             <AreaChart chartData={chartData}  />
+            <TradingViewEmbed
+                widgetType={widgetType.ADVANCED_CHART}
+                widgetConfig={{
+                    colorTheme: "dark",
+                    symbol: "BITMEX:XBTUSD",
+                    width: "100%",
+                    height: "300"
+                }}
+            />
             <Posts />
         </Layout>
     )
