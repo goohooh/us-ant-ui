@@ -68,7 +68,7 @@ class Header extends React.Component {
             }} />
             : <Autocomplete {...this.props} ref={this.inputRef} />
         }
-        <span onClick={() => this.props.setIsMenuOpened(true)} style={{ marginLeft: 15, flexShrink: 0 }}>My</span>
+        <span onClick={() => this.props.setIsMenuOpened(true)} style={{ marginLeft: 15 }}>My</span>
       </div>
     );
   }
