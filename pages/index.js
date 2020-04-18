@@ -16,15 +16,18 @@ const Index = ({ chartData, stock }) => {
                 } dangerouslySetInnerHTML={{__html: `${up ? "&#9650;" : "&#9660;"} ${gap.toFixed(2)}$ ${(gap / stock.latestPrice * 100).toFixed(2)}%`}}></span>
             </div>
             <AreaChart chartData={chartData}  />
-            <TradingViewEmbed
-                widgetType={widgetType.ADVANCED_CHART}
-                widgetConfig={{
-                    colorTheme: "dark",
-                    symbol: "BITMEX:XBTUSD",
-                    width: "100%",
-                    height: "300"
-                }}
-            />
+            <div>
+                <TradingViewEmbed
+                    widgetType={widgetType.ADVANCED_CHART}
+                    symbol={"NASDAQ:AAPL"}
+                    widgetConfig={{
+                        colorTheme: "dark",
+                        symbol:"NASDAQ:AAPL",
+                        width: "100%",
+                        height: "400"
+                    }}
+                />
+            </div>
             <Posts />
         </Layout>
     )
