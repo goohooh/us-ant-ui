@@ -29,10 +29,21 @@ const Posts = () => {
                     </button>
             </div>
             <ul className="posts">
-            {data.rates.map((item, idx) => (
+            {data.rates.slice(0,10).map((item, idx) => (
                 <PostItem key={idx} item={item} id={idx} />
             ))}
             </ul>
+            <div className="mt-2 flex justify-center">
+              <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-1 px-3 rounded-l">
+                Prev
+              </button>
+              {[1,2,3,4,5].map(i => (
+                <button className="bg-gray-100 hover:bg-gray-300 text-gray-600 py-1 px-3" key={i}>{i}</button>
+              ))}
+              <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-1 px-3 rounded-r">
+                Next
+              </button>
+            </div>
         </div>
     );
 }

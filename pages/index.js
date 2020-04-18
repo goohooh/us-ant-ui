@@ -19,10 +19,9 @@ const Index = ({ chartData, stock }) => {
             <div>
                 <TradingViewEmbed
                     widgetType={widgetType.ADVANCED_CHART}
-                    symbol={"NASDAQ:AAPL"}
                     widgetConfig={{
                         colorTheme: "dark",
-                        symbol:"NASDAQ:AAPL",
+                        symbol:"NASDAQ:AMZN",
                         width: "100%",
                         height: "400"
                     }}
