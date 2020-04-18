@@ -107,11 +107,11 @@ let AreaChart = props => {
 			xScale={xScale}
 			displayXAccessor={displayXAccessor}
 			xExtents={xExtents}
-			mouseMoveEvent={false}
-			panEvent={false}
-			zoomEvent={false}
-			clamp={false}
 			// onLoadMore={this.handleDownloadMore}
+			// mouseMoveEvent={false}
+			// panEvent={false}
+			// zoomEvent={false}
+			// clamp={false}
 		>
 			<Chart id={1} yExtents={d => [d.high, d.low]} height={150}>
 				<defs>
