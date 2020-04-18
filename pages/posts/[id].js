@@ -36,7 +36,7 @@ const Post = ({ posts, stock }) => {
       </div>
       <div className="container p-4">
         <h4 className="text-sm">Comments</h4>
-        <div className="rounded  bg-gray-200">
+        <div className="rounded bg-gray-200 p-2">
           {
             comments.map((comment, idx)=> (<Comment key={idx} comment={comment} />))
           }
