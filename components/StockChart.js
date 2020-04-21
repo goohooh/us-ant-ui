@@ -16,7 +16,7 @@ import { HoverTooltip } from "react-stockcharts/lib/tooltip";
 import fetch from 'isomorphic-unfetch';
 import { ReactEditor } from "slate-react";
 
-const getData = () => fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/max?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
+const getData = symbol => fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/1m?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
 	.then(res => res.json())
 
 const dateFormat = timeFormat("%Y-%m-%d");
@@ -78,26 +78,27 @@ const canvasGradient = createVerticalLinearGradient([
 function getMaxUndefined(calculators) {
 	return calculators.map(each => each.undefinedLength()).reduce((a, b) => Math.max(a, b));
 }
-const LENGTH_TO_SHOW = 180;
+const LENGTH_TO_SHOW = 90;
 
 
 class StockChart extends React.Component {
 	constructor(props) {
 		super(props);
-		const { chartData: inputData } = props;
-		// const dataToCalculate = inputData.slice(-LENGTH_TO_SHOW - maxWindowSize);
+		const { chartData } = props;
+		const inputData = chartData.map(d => ({ ...d, date: new Date(d.date) }));
+		const dataToCalculate = inputData.slice(-LENGTH_TO_SHOW);
 		// const dataToCalculate = inputData;
 
 		const indexCalculator = discontinuousTimeScaleProviderBuilder().indexCalculator();
 
 		// console.log(inputData.length, dataToCalculate.length, maxWindowSize)
-		const { index } = indexCalculator(inputData);
+		const { index } = indexCalculator(dataToCalculate);
 		/* SERVER - END */
 
 		const xScaleProvider = discontinuousTimeScaleProviderBuilder()
 			.withIndex(index);
 		// const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(cwalculatedData.slice(-LENGTH_TO_SHOW));
-		const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(inputData);
+		const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(dataToCalculate.slice(-LENGTH_TO_SHOW));
 
 		this.state = {
 			linearData,
@@ -109,58 +110,56 @@ class StockChart extends React.Component {
 	}
 
 	handleDownloadMore(start, end) {
-		console.log(start, end)
 		if (Math.ceil(start) === end) return;
 		const { data: prevData } = this.state;
-		const { data: inputData } = this.props;
-		// if (inputData.length === prevData.length) return;
+		const { chartData } = this.props;
+			const inputData = chartData.map(d => ({ ...d, date: new Date(d.date) }))
+			if (inputData.length === prevData.length) return;
 
-		const rowsToDownload = end - Math.ceil(start);
+			const rowsToDownload = end - Math.ceil(start);
 
-		// const maxWindowSize = getMaxUndefined([ema26,
-		// 	ema12,
-		// 	macdCalculator,
-		// 	smaVolume50
-		// ]);
+			// const maxWindowSize = getMaxUndefined([ema26,
+			// 	ema12,
+			// 	macdCalculator,
+			// 	smaVolume50
+			// ]);
 
-		/* SERVER - START */
-		const dataToCalculate = inputData
-			.slice(-rowsToDownload - prevData.length, - prevData.length);
+			/* SERVER - START */
+			const dataToCalculate = inputData
+				.slice(-rowsToDownload - prevData.length, - prevData.length);
 
-		const indexCalculator = discontinuousTimeScaleProviderBuilder()
-			.initialIndex(Math.ceil(start))
-			.indexCalculator();
-		const { index } = indexCalculator(
-			dataToCalculate	
-				.slice(-rowsToDownload)
-				.concat(prevData));
-		/* SERVER - END */
+			const indexCalculator = discontinuousTimeScaleProviderBuilder()
+				.initialIndex(Math.ceil(start))
+				.indexCalculator();
+			const { index } = indexCalculator(
+				dataToCalculate	
+					.slice(-rowsToDownload)
+					.concat(prevData));
+			/* SERVER - END */
 
-		const xScaleProvider = discontinuousTimeScaleProviderBuilder()
-			.initialIndex(Math.ceil(start))
-			.withIndex(index);
+			const xScaleProvider = discontinuousTimeScaleProviderBuilder()
+				.initialIndex(Math.ceil(start))
+				.withIndex(index);
 
-		const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(dataToCalculate.slice(-rowsToDownload).concat(prevData));
+			const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(dataToCalculate.slice(-rowsToDownload).concat(prevData));
 
-		// console.log(linearData.length)
-		setTimeout(() => {
-			// simulate a lag for ajax
 			this.setState({
 				data: linearData,
 				xScale,
 				xAccessor,
 				displayXAccessor,
 			});
-		}, 300);
 	}
 
 	render () {
+		const { width, ratio } = this.props;
+		const { data, xScale, xAccessor, displayXAccessor } = this.state;
 		return (
 			<>
-			<ChartCanvas ratio={props.ratio} width={width || props.width || 320} height={200}
+			<ChartCanvas ratio={ratio} width={width || 320} height={200}
 				margin={{ left: 16, right: 16, top: 20, bottom: 30 }}
 				seriesName="MSFT"
-				data={linearData} type={"svg"}
+				data={data} type={"svg"}
 				xAccessor={xAccessor}
 				xScale={xScale}
 				displayXAccessor={displayXAccessor}

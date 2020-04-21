@@ -2,9 +2,9 @@ import fetch from 'isomorphic-unfetch';
 import Layout from '../components/Layout';
 import Posts from '../components/Posts';
 // import AreaChart from '../components/AreaChart';
-import StockChart from '../components/AreaChart';
+import StockChart from '../components/StockChart';
 
-const Index = ({ chartData, stock }) => {
+const Index = ({ chartData, stock, symbol }) => {
     const gap = stock.latestPrice - stock.previousClose;
     const up = gap > 0;
     return (
@@ -16,7 +16,7 @@ const Index = ({ chartData, stock }) => {
                 } dangerouslySetInnerHTML={{__html: `${up ? "&#9650;" : "&#9660;"} ${gap.toFixed(2)}$ ${(gap / stock.latestPrice * 100).toFixed(2)}%`}}></span>
             </div>
             {/* <AreaChart chartData={chartData}  /> */}
-            <StockChart chartData={chartData}  />
+            <StockChart chartData={chartData} symbol={symbol}  />
             <Posts />
         </Layout>
     )
@@ -25,8 +25,8 @@ const Index = ({ chartData, stock }) => {
 Index.getInitialProps = async function({ query }) {
     const symbol = query.symbol ? query.symbol : "spy";
     const range = query.range ? query.range : "3m";
-    const chartData = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/${range}?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
-    // const chartData = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/max?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
+    // const chartData = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/${range}?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
+    const chartData = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/max?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
         .then(res => res.json())
     const stock = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/quote?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
         .then(res => res.json())
@@ -34,6 +34,7 @@ Index.getInitialProps = async function({ query }) {
     return {
         chartData,
         stock,
+        symbol,
     };
 };
 
