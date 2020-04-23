@@ -1,13 +1,18 @@
-import Editor from "../../components/editor/editor";
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic'
 import Layout from '../../components/Layout';
+
+const PostEditor = dynamic(
+  () => import('../../components/PostEditor'),
+  { ssr: false }
+)
 
 const Create = ({ stock }) => {
     const router = useRouter();
     return (
         <Layout stock={stock}>
             <div className="container p-4 ">
-                <Editor />
+                <PostEditor />
                 <div className="mt-3 flex flex-row-reverse">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded shadow-md">글쓰기</button>
                 </div>

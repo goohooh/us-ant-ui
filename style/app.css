@@ -98,3 +98,39 @@
   .min-h-50 {
     min-height: 50vh;
   }
+
+.rdw-editor-wrapper {
+  position: relative;
+}
+
+.rdw-editor-toolbar .rdw-emoji-wrapper,
+.rdw-editor-toolbar .rdw-embedded-wrapper,
+.rdw-editor-toolbar .rdw-link-wrapper,
+.rdw-editor-toolbar .rdw-image-wrapper,
+.rdw-editor-toolbar .rdw-colorpicker-wrapper {
+    position: static;
+}
+
+.rdw-editor-toolbar .rdw-emoji-modal,
+.rdw-editor-toolbar .rdw-embedded-modal,
+.rdw-editor-toolbar .rdw-link-modal,
+.rdw-editor-toolbar .rdw-image-modal,
+.rdw-editor-toolbar .rdw-colorpicker-modal {
+  width: 100%;
+}
+
+.rdw-editor-toolbar .rdw-image-modal-header-option,
+.rdw-editor-toolbar .rdw-embedded-modal-header-option {
+  width: auto;
+}
+
+.rdw-editor-toolbar .rdw-link-modal {
+  height: auto;
+}
+
+.rdw-editor-main.demo-editor {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 50vh;
+  border: 1px solid #e2e8f0;
+}
