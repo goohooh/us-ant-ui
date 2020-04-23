@@ -24,9 +24,11 @@ const Posts = () => {
         <div className="container p-4">
             <div className="flex justify-between align-center py-2">
                 <h4 className="text-sm">Posts</h4>
-                    <button onClick={() => Router.push('/posts/create', { query: { symbol }})} className="bg-transparent hover:bg-blue-500 text-blue-700 text-xs font-semibold hover:text-white px-2 border border-blue-500 hover:border-transparent rounded">
+                  <Link href={`/posts/create?symbol=${symbol}`}>
+                    <a onClick={() => Router.push('/posts/create', { query: { symbol }})} className="bg-transparent hover:bg-blue-500 text-blue-700 text-xs font-semibold hover:text-white px-2 border border-blue-500 hover:border-transparent rounded">
                         글쓰기
-                    </button>
+                    </a>
+                  </Link>
             </div>
             <ul className="posts">
             {data.rates.slice(0,10).map((item, idx) => (

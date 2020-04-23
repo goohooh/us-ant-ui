@@ -169,7 +169,7 @@ export default () => {
     const [value, setValue] = useState([
         {
             type: 'paragraph',
-            children: [{ text: 'A line of text in a paragraph.' }],
+            children: [{ text: '' }],
         },
     ])
     return (
@@ -198,10 +198,10 @@ export default () => {
                 <BlockButton format="bulleted-list" icon="format_list_bulleted" />
             </Toolbar>
             <Editable
-                className="p-3"
+                className="p-3 min-h-50"
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
+                placeholder="글을 입력해 주세요"
                 spellCheck
                 autoFocus
                 onKeyDown={event => {

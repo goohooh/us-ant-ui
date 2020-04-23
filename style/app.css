@@ -94,3 +94,7 @@
   .posts__item {
       border-top-width: 1px;
   }
+
+  .min-h-50 {
+    min-height: 50vh;
+  }
