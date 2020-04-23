@@ -3,12 +3,12 @@ import { Editor } from 'react-draft-wysiwyg';
 import editor from './editor/editor';
 
 class PostEditor extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            title: "",
-            editorState: EditorState.createEmpty(),
+            title: props.title || "",
+            editorState: props.value || EditorState.createEmpty(),
         };
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
@@ -24,8 +24,6 @@ class PostEditor extends React.Component {
         this.setState({
             editorState,
         });
-        console.log(editorState)
-        //   this.props.setValue(editorState)
     };
   
     render() {
@@ -42,6 +40,9 @@ class PostEditor extends React.Component {
                     editorClassName="demo-editor"
                     onEditorStateChange={this.onEditorStateChange}
                 />
+                <div className="mt-3 flex flex-row-reverse">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded shadow-md">글쓰기</button>
+                </div>
             </>
         )
     }
