@@ -1,10 +1,9 @@
 import fetch from 'isomorphic-unfetch';
 import Layout from '../components/Layout';
 import Posts from '../components/Posts';
-import AreaChart from '../components/AreaChart';
-import { TradingViewEmbed, widgetType } from "react-tradingview-embed";
+import StockChart from '../components/StockChart';
 
-const Index = ({ chartData, stock }) => {
+const Index = ({ chartData, stock, symbol }) => {
     const gap = stock.latestPrice - stock.previousClose;
     const up = gap > 0;
     return (
@@ -15,18 +14,7 @@ const Index = ({ chartData, stock }) => {
                     (up ? "text-blue-700" : "text-red-600")
                 } dangerouslySetInnerHTML={{__html: `${up ? "&#9650;" : "&#9660;"} ${gap.toFixed(2)}$ ${(gap / stock.latestPrice * 100).toFixed(2)}%`}}></span>
             </div>
-            <AreaChart chartData={chartData}  />
-            <div>
-                <TradingViewEmbed
-                    widgetType={widgetType.ADVANCED_CHART}
-                    widgetConfig={{
-                        colorTheme: "dark",
-                        symbol:"NASDAQ:AMZN",
-                        width: "100%",
-                        height: "400"
-                    }}
-                />
-            </div>
+            <StockChart chartData={chartData} symbol={symbol}  />
             <Posts />
         </Layout>
     )
@@ -44,6 +32,7 @@ Index.getInitialProps = async function({ query }) {
     return {
         chartData,
         stock,
+        symbol,
     };
 };
 
