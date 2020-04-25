@@ -1,9 +1,7 @@
 import { timeFormat } from "d3-time-format";
-import { scaleTime } from "d3-scale";
 import { curveMonotoneX } from "d3-shape";
 import { format } from "d3-format";
 
-import useDimensions from "react-use-dimensions";
 import { ChartCanvas, Chart } from "react-stockcharts";
 import { AreaSeries, BarSeries } from "react-stockcharts/lib/series";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
@@ -11,10 +9,8 @@ import { fitWidth } from "react-stockcharts/lib/helper";
 import { createVerticalLinearGradient, hexToRGBA } from "react-stockcharts/lib/utils";
 
 import { discontinuousTimeScaleProviderBuilder } from "react-stockcharts/lib/scale";
-import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import { HoverTooltip } from "react-stockcharts/lib/tooltip";
 import fetch from 'isomorphic-unfetch';
-import { ReactEditor } from "slate-react";
 
 const getData = symbol => fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/1m?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
 	.then(res => res.json())
@@ -75,9 +71,6 @@ const canvasGradient = createVerticalLinearGradient([
 	{ stop: 0.7, color: hexToRGBA("#6fa4fc", 0.4) },
 	{ stop: 1, color: hexToRGBA("#4286f4", 0.8) },
 ]);
-function getMaxUndefined(calculators) {
-	return calculators.map(each => each.undefinedLength()).reduce((a, b) => Math.max(a, b));
-}
 const LENGTH_TO_SHOW = 90;
 
 
@@ -87,17 +80,13 @@ class StockChart extends React.Component {
 		const { chartData } = props;
 		const inputData = chartData.map(d => ({ ...d, date: new Date(d.date) }));
 		const dataToCalculate = inputData.slice(-LENGTH_TO_SHOW);
-		// const dataToCalculate = inputData;
 
 		const indexCalculator = discontinuousTimeScaleProviderBuilder().indexCalculator();
 
-		// console.log(inputData.length, dataToCalculate.length, maxWindowSize)
 		const { index } = indexCalculator(dataToCalculate);
-		/* SERVER - END */
 
 		const xScaleProvider = discontinuousTimeScaleProviderBuilder()
 			.withIndex(index);
-		// const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(cwalculatedData.slice(-LENGTH_TO_SHOW));
 		const { data: linearData, xScale, xAccessor, displayXAccessor } = xScaleProvider(dataToCalculate.slice(-LENGTH_TO_SHOW));
 
 		this.state = {
@@ -118,13 +107,6 @@ class StockChart extends React.Component {
 
 			const rowsToDownload = end - Math.ceil(start);
 
-			// const maxWindowSize = getMaxUndefined([ema26,
-			// 	ema12,
-			// 	macdCalculator,
-			// 	smaVolume50
-			// ]);
-
-			/* SERVER - START */
 			const dataToCalculate = inputData
 				.slice(-rowsToDownload - prevData.length, - prevData.length);
 
@@ -135,7 +117,6 @@ class StockChart extends React.Component {
 				dataToCalculate	
 					.slice(-rowsToDownload)
 					.concat(prevData));
-			/* SERVER - END */
 
 			const xScaleProvider = discontinuousTimeScaleProviderBuilder()
 				.initialIndex(Math.ceil(start))
@@ -164,10 +145,6 @@ class StockChart extends React.Component {
 				xScale={xScale}
 				displayXAccessor={displayXAccessor}
 				onLoadMore={this.handleDownloadMore}
-				// mouseMoveEvent={true}
-				// panEvent={true}
-				// zoomEvent={true}
-				// clamp={true}
 			>
 				<Chart id={1} yExtents={d => [d.high, d.low]} height={150}>
 					<defs>
@@ -195,11 +172,11 @@ class StockChart extends React.Component {
 					<BarSeries yAccessor={d => d.volume} stroke={false} fill={(d) => d.close > d.open ? "#6BA583" : "red"} />
 				</Chart>
 			</ChartCanvas>
-			<div className="flex flex-row-reverse px-4">
+			{/* <div className="flex flex-row-reverse px-4">
 				<button className="bg-green-500 hover:bg-green-700 text-xs text-white font-bold py-1 px-3 rounded-full border border-green-700">
 					공유하기	
 				</button>
-			</div>
+			</div> */}
 			</>
 		);
 	}

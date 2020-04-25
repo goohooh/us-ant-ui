@@ -1,6 +1,6 @@
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import editor from './editor/editor';
+import { convertFromRaw } from 'draft-js';
 
 class PostEditor extends React.Component {
     constructor(props) {
@@ -8,15 +8,25 @@ class PostEditor extends React.Component {
 
         this.state = {
             title: props.title || "",
-            editorState: props.value || EditorState.createEmpty(),
+            editorState: props.value ? convertFromRaw(props.value) : EditorState.createEmpty(),
         };
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onTitleChange(value) {
+    onSubmit() {
+        const { editorState, title } = this.state;
+
+        console.log({
+            title,
+            bodyRaw: editorState.getCurrentContent(),
+        })
+    }
+
+    onTitleChange(e) {
         this.setState({
-            title: value
+            title: e.target.value
         });
     }
   
@@ -27,10 +37,12 @@ class PostEditor extends React.Component {
     };
   
     render() {
-        const { editorState } = this.state;
+        const { editorState, title } = this.state;
         return (
             <>
                 <input
+                    value={title}
+                    onChange={this.onTitleChange}
                     className="mb-4 p-2 w-full border rounded focus:outline-none focus:shadow-outline"
                     placeholder="제목을 입력해 주세요"
                 />
@@ -41,7 +53,7 @@ class PostEditor extends React.Component {
                     onEditorStateChange={this.onEditorStateChange}
                 />
                 <div className="mt-3 flex flex-row-reverse">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded shadow-md">글쓰기</button>
+                    <button onClick={this.onSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded shadow-md">글쓰기</button>
                 </div>
             </>
         )

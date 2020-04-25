@@ -12,7 +12,7 @@ const Create = ({ stock }) => {
     return (
         <Layout stock={stock}>
             <div className="container p-4 ">
-                <PostEditor onSubmit={} />
+                <PostEditor onSubmit={({ title, body }) => {console.log({ title, body })}} />
             </div>
         </Layout>
     );
