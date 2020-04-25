@@ -71,6 +71,7 @@
   .header__info {
     display: flex;
     flex-grow: 1;
+    max-width: calc(100% - 115px);
     justify-content: center;
     padding: 10px 10px;
     width: 100%;
@@ -80,20 +81,25 @@
     flex-wrap: nowrap;
     border-radius: 4px;
     cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.4);
   }
 
   .header__info .header__info--name {
     flex-shrink: 1;
+    max-width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow: hidden;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
+    line-height: 1;
   }
   .header__info .header__info--price {
-    margin: 0 10px;
+    margin-top: 2px;
     flex-grow: 1;
     text-align: center;
-    font-size: 0.55rem;
+    font-size: 0.54rem;
+    line-height: 1;
   }
   /* .header__info .header__info--search {
     margin-left: 20px;

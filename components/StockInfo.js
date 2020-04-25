@@ -3,7 +3,7 @@ const StockInfo = ({ stock, onClick }) => {
 
     return (
         <div className="header__info items-center" onClick={onClick}>
-            <div>
+            <div className="truncate">
                 <div className="header__info--name">{companyName}</div>
                 <div className="header__info--price">{latestPrice}$</div>
             </div>
