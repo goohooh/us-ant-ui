@@ -34,6 +34,18 @@ const Post = ({ posts, stock }) => {
           </div>
         </div>
       </div>
+      <div className="container p-4 flex justify-center">
+        <button className="bg-red-500 hover:bg-red-700 text-white text-xs rounded-full py-1 px-2 mr-2 flex items-center">
+          <i className="material-icons text-xs">thumb_up</i>
+          <span className="mx-1">상투</span>
+          <span>{router.query.id}</span>
+        </button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white text-xs rounded-full py-1 px-2 flex items-center">
+          <i className="material-icons text-xs">thumb_down</i>
+          <span className="mx-1">발바닥</span>
+          <span>{router.query.id}</span>
+        </button>
+      </div>
       <div className="container p-4">
         <h4 className="text-sm">Comments</h4>
         <div className="rounded bg-gray-200 p-2">
