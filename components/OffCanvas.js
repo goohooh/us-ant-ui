@@ -12,9 +12,15 @@ export default ({ isMenuOpened, setIsMenuOpened }) => (
         }}>
             <div className="flex justify-between">
                 <h3>My</h3>
-                <button onClick={() => setIsMenuOpened(false)}>X</button>
+                <button onClick={() => setIsMenuOpened(false)}><i className="material-icons">close</i></button>
             </div>
             <LoginForm />
+            <div className="mt-4">
+                <ul>
+                    <li>작성 글 보기</li>
+                    <li class="border-t-2 border-gray-200">작성 댓글 보기</li>
+                </ul>
+            </div>
         </div>
     </div>
 );
