@@ -18,7 +18,7 @@ class PostEditor extends React.Component {
     onSubmit() {
         const { editorState, title } = this.state;
 
-        console.log({
+        this.props.onSubmit({
             title,
             bodyRaw: editorState.getCurrentContent(),
         })

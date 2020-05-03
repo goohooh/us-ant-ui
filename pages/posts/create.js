@@ -1,18 +1,35 @@
 import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag'
 import dynamic from 'next/dynamic'
 import Layout from '../../components/Layout';
+
+const CREATE_POST_MUTATION = gql`
+  mutation CreatePost($boardId: String!, $title: String!, $content: String!) {
+    createPost(boardId: $boardId, title: $title, content: $content) {
+        id
+        board { 
+            id
+        }
+    }
+  }
+`;
 
 const PostEditor = dynamic(
   () => import('../../components/PostEditor'),
   { ssr: false }
 )
 
-const Create = ({ stock }) => {
-    const router = useRouter();
+const Create = ({ stock, symbol }) => {
+    const [createPost] = useMutation(CREATE_POST_MUTATION);
     return (
         <Layout stock={stock}>
             <div className="container p-4 ">
-                <PostEditor onSubmit={({ title, body }) => {console.log({ title, body })}} />
+                <PostEditor onSubmit={({ title, bodyRaw }) => {
+                    createPost({
+                        variables: { boardId: symbol, title, content: JSON.stringify(bodyRaw) }
+                    })
+                }} />
             </div>
         </Layout>
     );
@@ -25,6 +42,7 @@ Create.getInitialProps = async function({ query }) {
   
     return {
         stock,
+        symbol,
     };
 };
 export default Create;

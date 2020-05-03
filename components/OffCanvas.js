@@ -1,4 +1,5 @@
 import LoginForm from './LoginForm';
+import Link from 'next/link';
 
 export default ({ isMenuOpened, setIsMenuOpened }) => (
     <div className="fixed top-0 w-screen h-screen box-border flex flex-row-reverse" style={{
@@ -17,7 +18,8 @@ export default ({ isMenuOpened, setIsMenuOpened }) => (
             <LoginForm />
             <div className="mt-4">
                 <ul>
-                    <li>작성 글 보기</li>
+                    <li><Link href="/my/profile">프로필</Link></li>
+                    <li className="border-t-2 border-gray-200">작성 글 보기</li>
                     <li className="border-t-2 border-gray-200">작성 댓글 보기</li>
                 </ul>
             </div>

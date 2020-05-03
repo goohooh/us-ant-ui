@@ -1,4 +1,6 @@
 import Link from "next/link";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { GoogleLogin } from 'react-google-login';
 
 export default () => (
     <form className="mt-4">
@@ -13,8 +15,26 @@ export default () => (
         </div>
         <div>
             {/* <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-4 rounded">Kakao 로그인</button> */}
-            <button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Facebook 로그인</button>
-            <button className="w-full mt-2 bg-white hover:bg-gray-300 text-black font-bold py-1 px-4 rounded border-2 border-solid">Google 로그인</button>
+            <FacebookLogin
+                appId="679383572879991"
+                scope="public_profile, email, user_birthday"
+                fields="name,email,picture"
+                callback={res => console.log(res)}
+                render={renderProps => (
+                    <button onClick={renderProps.onClick} className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Facebook 로그인</button>
+                )}
+            >
+            </FacebookLogin>
+            <GoogleLogin
+                clientId="1023454076344-hvsh97fa04joa1edkp3416qs50vhuqe9.apps.googleusercontent.com"
+                render={renderProps => (
+                    <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="w-full mt-2 bg-white hover:bg-gray-300 text-black font-bold py-1 px-4 rounded border-2 border-solid">Google 로그인</button>
+                )}
+                buttonText="Login"
+                onSuccess={res => console.log(res)}
+                onFailure={res => console.error(res)}
+                cookiePolicy={'single_host_origin'}
+            />
         </div>
         <div className="border-t-1 border-solid border-gray-400 mt-3">
             <Link href={`/signup`}>
