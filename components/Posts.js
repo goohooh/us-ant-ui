@@ -5,11 +5,30 @@ import { useQuery } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import PostItem from './PostItem';
 
-const EXCHANGE_RATES = gql`
-  {
-    rates(currency: "USD") {
-      currency
-      rate
+const POSTS = gql`
+  query Posts($symbol: String!) {
+    posts(boardId: $symbol) {
+      totalCount
+      edges {
+        node {
+          id
+          user {
+            username
+          }
+          title
+          commentsCount
+          likesCount
+          viewsCount
+          updatedAt
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      } 
     }
   }
 `;
@@ -17,7 +36,9 @@ const EXCHANGE_RATES = gql`
 const Posts = () => {
     const router = useRouter();
     const symbol = router.query.symbol || "spy";
-    const { loading, error, data } = useQuery(EXCHANGE_RATES);
+    const { loading, error, data } = useQuery(POSTS, {
+      variables: { symbol }
+    });
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
     return (
@@ -31,7 +52,7 @@ const Posts = () => {
                 </Link>
             </div>
             <ul className="posts">
-            {data.rates.slice(0,10).map((item, idx) => (
+            {(data.posts || []).slice(0,10).map((item, idx) => (
                 <PostItem key={idx} item={item} id={idx} />
             ))}
             </ul>
