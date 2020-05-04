@@ -4,6 +4,11 @@ import { GoogleLogin } from 'react-google-login';
 import { useState } from "react";
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import actions from "../redux/actions/authActions";
+
+const { authenticate } = actions;
 
 const SIGNIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -18,10 +23,12 @@ const SIGNIN_MUTATION = gql`
   }
 `;
 
-export default () => {
+const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [signin] = useMutation(SIGNIN_MUTATION)
+    const dispatch = useDispatch()
+    const router = useRouter();
 
     return (
         <form className="mt-4">
@@ -45,9 +52,13 @@ export default () => {
                         signin({ 
                             variables: {
                                 email, password
-                            },
-                            onCompleted: data => {
-                                console.log(data)
+                            }
+                        }).then(({ data: { login } }) => {
+                            if (login) {
+                                const { user, token } = login;
+                                dispatch(authenticate({ user, token }));
+                                const { pathname, query } = router;
+                                router.push(pathname, { query });
                             }
                         });
                     }}
@@ -87,3 +98,5 @@ export default () => {
         </form>
     );
 };
+
+export default LoginForm;

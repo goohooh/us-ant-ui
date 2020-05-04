@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { REGISTER, AUTHENTICATE, DEAUTHENTICATE } from '../types';
+import { REGISTER, AUTHENTICATE, DEAUTHENTICATE, USER } from '../types';
 import { setCookie, removeCookie } from '../../utils/cookie';
 // import axios from 'axios';
 // import { API } from '../../config';
@@ -34,37 +34,38 @@ const register = ({ email, password, password2 }, type) => {
   };
 };
 // gets token from the api and stores it in the redux store and in cookie
-const authenticate = ({ email_id, password }, type) => {
-  if (type !== 'login') {
-    throw new Error('Wrong API call!');
-  }
+const authenticate = ({ user, token }) => {
   return (dispatch) => {
-    console.log(email_id)
-    axios.post(`${API}/${type}`, { email_id, password })
-      .then((response) => {
-        console.log(response.data.data.user.token);
-        setCookie('token', response.data.data.user.token);
-        Router.push('/users');
-        dispatch({type: AUTHENTICATE, payload: response.data.data.user.token});
-      })
-      .catch((err) => {
-        console.log(err);
-        switch (error.response.status) {
-          case 422:
-          alert(error.response.data.meta.message);
-            break;
-          case 401:
-          alert(error.response.data.meta.message);
-            break;
-          case 500:
-          alert('Interval server error! Try again!');
-            break;
-          default:
-          alert(error.response.data.meta.message);
-            break;
-        }
+    setCookie('token', token);
+    dispatch({type: AUTHENTICATE, payload: token});
+    dispatch({type: USER, payload: user});
 
-      });
+    // console.log(email_id)
+    // axios.post(`${API}/${type}`, { email_id, password })
+    //   .then((response) => {
+    //     console.log(response.data.data.user.token);
+    //     setCookie('token', response.data.data.user.token);
+    //     Router.push('/users');
+    //     dispatch({type: AUTHENTICATE, payload: response.data.data.user.token});
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     switch (error.response.status) {
+    //       case 422:
+    //       alert(error.response.data.meta.message);
+    //         break;
+    //       case 401:
+    //       alert(error.response.data.meta.message);
+    //         break;
+    //       case 500:
+    //       alert('Interval server error! Try again!');
+    //         break;
+    //       default:
+    //       alert(error.response.data.meta.message);
+    //         break;
+    //     }
+
+    //   });
   };
 };
 
