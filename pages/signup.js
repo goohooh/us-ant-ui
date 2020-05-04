@@ -1,8 +1,11 @@
 import { useState } from "react";
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
-// import { Mutation } from 'react-apollo';
+import { connect } from 'react-redux';
+import actions from '../redux/actions';
+import initialize from '../utils/initialize';
 import StandAloneLayout from "../components/StandAloneLayout";
+import { Router } from "next/router";
 
 const SIGNUP_MUTATION = gql`
   mutation SignUp($email: String!, $password: String!, $name: String!, $username: String!) {
@@ -12,13 +15,13 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-export default () => {
+const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [username, setUsername] = useState("");
-    const [signup, { data }] = useMutation(SIGNUP_MUTATION);
+    const [signup] = useMutation(SIGNUP_MUTATION);
 
     return (
         <StandAloneLayout>
@@ -62,8 +65,11 @@ export default () => {
                             variables: {
                                 name, email, username, password
                             },
-                            onCompleted: data => {
-                                console.log(data)
+                            onCompleted: ({ data }) => {
+                                console.log(data);
+                                if (data.signup) {
+                                    Router.push("/");
+                                }
                             }
                         });
                     }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">회원가입</button>
@@ -77,3 +83,7 @@ export default () => {
         </StandAloneLayout>
     );
 };
+
+Signup.getInitialProps = initialize;
+
+export default Signup;
