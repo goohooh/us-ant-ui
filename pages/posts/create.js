@@ -8,9 +8,6 @@ const CREATE_POST_MUTATION = gql`
   mutation CreatePost($boardId: String!, $title: String!, $content: String!) {
     createPost(boardId: $boardId, title: $title, content: $content) {
         id
-        board { 
-            id
-        }
     }
   }
 `;
@@ -27,7 +24,7 @@ const Create = ({ stock, symbol }) => {
             <div className="container p-4 ">
                 <PostEditor onSubmit={({ title, bodyRaw }) => {
                     createPost({
-                        variables: { boardId: symbol, title, content: JSON.stringify(bodyRaw) }
+                        variables: { boardId: "ck9sdu1wl00033i89kigeocd7", title, content: JSON.stringify(bodyRaw) }
                     })
                 }} />
             </div>

@@ -11,7 +11,7 @@ import withData from '../hoc/apolloClient';
 
 class AntApp extends App {
     static async getInitialProps({ Component, ctx }) {
-        initialize(ctx);
+        await initialize(ctx);
         return {
             pageProps: {
                 ...(Component.getInitialProps
@@ -35,4 +35,4 @@ class AntApp extends App {
     }
 }
 
-export default withData(withRedux(initStore, { debug: true })(AntApp));
+export default withData(withRedux(initStore, { debug: false })(AntApp));

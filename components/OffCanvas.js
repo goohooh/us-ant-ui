@@ -24,7 +24,7 @@ export default ({ isMenuOpened, setIsMenuOpened }) => {
     let user;
     if (data) {
         user = data.currentUser;
-        dispatch(setUser(user));
+        // dispatch(setUser(user));
     }
     return (
         <div className="fixed top-0 w-screen h-screen box-border flex flex-row-reverse" style={{

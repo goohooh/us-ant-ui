@@ -6,15 +6,12 @@ import { useRouter } from 'next/router';
 import PostItem from './PostItem';
 
 const POSTS = gql`
-  query Posts($symbol: String!) {
-    posts(boardId: $symbol) {
+  query Posts($boardId: String!) {
+    posts(boardId: $boardId) {
       totalCount
       edges {
         node {
           id
-          user {
-            username
-          }
           title
           commentsCount
           likesCount
@@ -33,12 +30,46 @@ const POSTS = gql`
   }
 `;
 
+const PRODUCTS = gql`
+  query Products($symbol: String!) {
+    products(term: $symbol) {
+      id
+      symbol
+      engName
+      korName
+      board {
+        id
+        posts {
+          totalCount
+          edges {
+            node {
+              id
+              title
+              commentsCount
+              likesCount
+              updatedAt
+            }
+            cursor
+          }
+          pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+      }
+    }
+  }
+`;
+
 const Posts = () => {
     const router = useRouter();
     const symbol = router.query.symbol || "spy";
     const { loading, error, data } = useQuery(POSTS, {
-      variables: { symbol }
+      variables: { boardId: "ck9sdu1wl00033i89kigeocd7" }
     });
+      console.log(error)
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
     return (
@@ -52,8 +83,8 @@ const Posts = () => {
                 </Link>
             </div>
             <ul className="posts">
-            {(data.posts || []).slice(0,10).map((item, idx) => (
-                <PostItem key={idx} item={item} id={idx} />
+            {(data.posts.edges || []).map(({ node }) => (
+                <PostItem key={node.id} item={node} />
             ))}
             </ul>
             <div className="mt-2 flex justify-center">
