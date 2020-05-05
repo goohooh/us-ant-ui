@@ -5,7 +5,7 @@ import { useState } from "react";
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import actions from "../redux/actions/authActions";
 
 const { authenticate } = actions;
@@ -56,9 +56,9 @@ const LoginForm = () => {
                         }).then(({ data: { login } }) => {
                             if (login) {
                                 const { user, token } = login;
+                                const { query } = router;
                                 dispatch(authenticate({ user, token }));
-                                const { pathname, query } = router;
-                                router.push(pathname, { query });
+                                location.reload()
                             }
                         });
                     }}

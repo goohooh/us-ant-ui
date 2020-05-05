@@ -36,7 +36,7 @@ const register = ({ email, password, password2 }, type) => {
 // gets token from the api and stores it in the redux store and in cookie
 const authenticate = ({ user, token }) => {
   return (dispatch) => {
-    setCookie('token', token);
+    setCookie('us-ant-token', token);
     dispatch({type: AUTHENTICATE, payload: token});
     dispatch({type: USER, payload: user});
 
@@ -77,11 +77,13 @@ const reauthenticate = (token) =>
 // removing the token
 const deauthenticate = () => {
   return (dispatch) => {
-    removeCookie('token');
-    Router.push('/');
     dispatch({type: DEAUTHENTICATE});
+    removeCookie('us-ant-token');
+    Router.push('/', { reload: true });
   };
 };
+
+const setUser = user => dispatch => dispatch({ type: USER, payload: user });
 
 const getUser = ({ token }, type) => {
   console.log(token)
@@ -120,5 +122,6 @@ export default {
   authenticate,
   reauthenticate,
   deauthenticate,
+  setUser,
   getUser,
 };

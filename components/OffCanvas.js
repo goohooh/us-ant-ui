@@ -1,13 +1,31 @@
 import LoginForm from './LoginForm';
 import Link from 'next/link';
 import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from '@apollo/react-hooks';
 import actions from "../redux/actions/authActions";
+const { deauthenticate, setUser } = actions;
+import gql from 'graphql-tag'
 
-const { deauthenticate } = actions;
+const CurrentUserQuery = gql`
+  query CurrentUser {
+      currentUser {
+        email
+        name
+        username
+      }
+  }
+`;
 
 export default ({ isMenuOpened, setIsMenuOpened }) => {
     const dispatch = useDispatch();
-    const { user } = useSelector(state => state.authentication);
+    const { loading, error, data } = useQuery(CurrentUserQuery);
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error :(</p>;
+    let user;
+    if (data) {
+        user = data.currentUser;
+        dispatch(setUser(user));
+    }
     return (
         <div className="fixed top-0 w-screen h-screen box-border flex flex-row-reverse" style={{
             left: isMenuOpened ? "0%" : "100%",
@@ -26,13 +44,19 @@ export default ({ isMenuOpened, setIsMenuOpened }) => {
                     user
                         ? (
                             <div className="mt-4">
-                                <ul>
+                                <h4 className="text-lg"><span className="font-semibold">{user.username} 님!</span> 반갑습니다!</h4>
+                                <ul className="mt-2">
                                     <li><Link href="/my/profile">프로필</Link></li>
                                     <li className="border-t-2 border-gray-200">작성 글 보기</li>
                                     <li className="border-t-2 border-gray-200">작성 댓글 보기</li>
                                 </ul>
                                 <div className="mt-4">
-                                    <button onClick={() => dispatch(deauthenticate())}>Logout</button>
+                                    <button onClick={() => {
+                                        dispatch(deauthenticate());
+                                        location.reload();
+                                    }}>
+                                        Logout
+                                    </button>
                                 </div>
                             </div>
                         )
