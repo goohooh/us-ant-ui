@@ -1,6 +1,7 @@
 import { useState } from "react";
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
+import { useSelector } from "react-redux";
 import StandAloneLayout from "../../components/StandAloneLayout";
 
 const SIGNUP_MUTATION = gql`
@@ -12,11 +13,12 @@ const SIGNUP_MUTATION = gql`
 `;
 
 export default () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const { user } = useSelector(state => state.authentication);
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(user.username || user.name);
     const [signup, { data }] = useMutation(SIGNUP_MUTATION);
 
     return (
