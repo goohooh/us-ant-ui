@@ -17,6 +17,9 @@ const POSTS = gql`
           likesCount
           viewsCount
           updatedAt
+          user {
+            username
+          }
         }
         cursor
       }
@@ -69,7 +72,6 @@ const Posts = () => {
     const { loading, error, data } = useQuery(POSTS, {
       variables: { boardId: "ck9sdu1wl00033i89kigeocd7" }
     });
-      console.log(error)
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
     return (

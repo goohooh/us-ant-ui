@@ -8,6 +8,7 @@ export default ({ item }) => {
         commentsCount,
         likesCount,
         updatedAt,
+        user: { username }
     } = item;
     const router = useRouter();
     return (
@@ -25,7 +26,7 @@ export default ({ item }) => {
                         </div>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">{`${'hi'}`}</span>
+                        <span className="text-sm text-gray-600">{`${username}`}</span>
                         <span className="text-xs text-gray-400">{new Date(updatedAt).toDateString()}</span>
                     </div>
                 </a>

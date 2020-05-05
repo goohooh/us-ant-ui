@@ -1,6 +1,7 @@
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import { convertFromRaw } from 'draft-js';
+import { convertFromRaw, convertToRaw } from 'draft-js';
+
 
 class PostEditor extends React.Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class PostEditor extends React.Component {
 
         this.props.onSubmit({
             title,
-            bodyRaw: editorState.getCurrentContent(),
+            bodyRaw: convertToRaw(editorState.getCurrentContent()),
         })
     }
 
