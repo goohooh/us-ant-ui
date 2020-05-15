@@ -21,7 +21,6 @@ const Index = ({ chartData, stock, symbol }) => {
 }
 
 Index.getInitialProps = async function({ query }) {
-    console.log("hi")
     const symbol = query.symbol ? query.symbol : "spy";
     const range = query.range ? query.range : "3m";
     // const chartData = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/chart/${range}?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)

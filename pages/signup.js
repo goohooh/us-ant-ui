@@ -66,9 +66,8 @@ const Signup = () => {
                                 name, email, username, password
                             },
                             onCompleted: ({ data }) => {
-                                console.log(data);
                                 if (data.signup) {
-                                    Router.push("/");
+                                    Router.push({ path: "/"});
                                 }
                             }
                         });

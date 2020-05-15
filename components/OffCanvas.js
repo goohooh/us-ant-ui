@@ -1,5 +1,6 @@
 import LoginForm from './LoginForm';
 import Link from 'next/link';
+import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from '@apollo/react-hooks';
 import actions from "../redux/actions/authActions";
@@ -53,7 +54,7 @@ export default ({ isMenuOpened, setIsMenuOpened }) => {
                                 <div className="mt-4">
                                     <button onClick={() => {
                                         dispatch(deauthenticate());
-                                        location.reload();
+                                        location.href = "/";
                                     }}>
                                         Logout
                                     </button>
