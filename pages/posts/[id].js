@@ -75,17 +75,14 @@ const Post = ({ posts, stock }) => {
           <span className="mx-1">가즈아</span>
           <span>{likesCount}</span>
         </button>
-        {/* <button className="bg-blue-500 hover:bg-blue-700 text-white text-xs rounded-full py-1 px-2 flex items-center">
-          <i className="material-icons text-xs">thumb_down</i>
-          <span className="mx-1">발바닥</span>
-          <span>{router.query.id}</span>
-        </button> */}
       </div>
       <div className="container p-4">
         <h4 className="text-sm">Comments</h4>
         <div className="rounded bg-gray-200 p-2">
           {
-            comments.edges.map(({ node })=> (<Comment key={node.id} comment={node} />))
+            comments.edges.length
+              ? comments.edges.map(({ node })=> (<Comment key={node.id} comment={node} />))
+              : (<p className="text-center text-gray-600">처음 댓글을 작성해보세요!</p>)
           }
         </div>
         <InputComment />

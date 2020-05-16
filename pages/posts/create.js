@@ -25,7 +25,6 @@ const Create = ({ stock, symbol }) => {
                 <PostEditor onSubmit={({ title, bodyRaw }) => {
                     createPost({
                         variables: { boardId: "ck9sdu1wl00033i89kigeocd7", title, content: JSON.stringify(bodyRaw) }
-                    // }).then(({ data: { post: { id } }}) => {
                     }).then(({ data: { createPost: { id }}}) => {
                         Router.push(`/posts/${id}?symbol=${symbol}`);
                     })

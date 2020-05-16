@@ -11,9 +11,10 @@ export default ({ item }) => {
         user: { username }
     } = item;
     const router = useRouter();
+    const { id: _, ...query } = router.query;
     return (
         <li className="posts__item border-gray-300 p-2">
-            <Link href={{ pathname: "/posts/[id]", query: { ...router.query }}} as={{pathname: `/posts/${id}`, query: { ...router.query }}} >
+            <Link href={{ pathname: "/posts/[id]", query: { ...query }}} as={{pathname: `/posts/${id}`, query: { ...query }}} shallow={true} >
                 <a className="block">
                     <div className="flex justify-between">
                         <div className="flex items-center">

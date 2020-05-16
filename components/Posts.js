@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks';
-import { useRouter } from 'next/router';
 import PostItem from './PostItem';
+import Paginator from './Paginator';
 
 const POSTS = gql`
   query Posts($boardId: String!) {
@@ -69,11 +69,19 @@ const PRODUCTS = gql`
 const Posts = () => {
     const router = useRouter();
     const symbol = router.query.symbol || "spy";
+    const page = router.query.page || 1;
+    const offset = (page - 1) * 10;
+    console.log(offset)
     const { loading, error, data } = useQuery(POSTS, {
-      variables: { boardId: "ck9sdu1wl00033i89kigeocd7" }
+      variables: {
+        boardId: "ck9sdu1wl00033i89kigeocd7",
+        // offset,
+      }
     });
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
+    const posts = data.posts.edges || [];
+    const count = data.posts.totalCount;
     return (
         <div className="container p-4">
             <div className="flex justify-between align-center py-2">
@@ -85,21 +93,11 @@ const Posts = () => {
                 </Link>
             </div>
             <ul className="posts">
-            {(data.posts.edges || []).map(({ node }) => (
+            {posts.map(({ node }) => (
                 <PostItem key={node.id} item={node} />
             ))}
             </ul>
-            <div className="mt-2 flex justify-center">
-              <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-1 px-3 rounded-l">
-                Prev
-              </button>
-              {[1,2,3,4,5].map(i => (
-                <button className="bg-gray-100 hover:bg-gray-300 text-gray-600 py-1 px-3" key={i}>{i}</button>
-              ))}
-              <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-1 px-3 rounded-r">
-                Next
-              </button>
-            </div>
+          <Paginator count={count} page={page} />
         </div>
     );
 }

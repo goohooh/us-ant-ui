@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Autocomplete from './Autocomplete';
 import StockInfo from './StockInfo';
+import { withRouter } from 'next/router'
 
 const headerStyle = {
   position: 'fixed',
@@ -51,9 +52,10 @@ class Header extends React.Component {
   }
 
   render() {
+    const query = this.props.router;
     return (
       <div style={headerStyle} className="flex flex-row justify-between items-center shadow-sm">
-        <Link href="/">
+        <Link href={{ pathname: "/", query: {symbol: query.symbol || "aapl"}}}>
           <a style={linkStyle}>
             <img src="/logo.png" alt="logo" />
           </a>
@@ -74,4 +76,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
