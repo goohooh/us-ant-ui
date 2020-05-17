@@ -15,6 +15,7 @@ export default ({ item }) => {
     return (
         <li className="posts__item border-gray-300 p-2">
             <Link href={{ pathname: "/posts/[id]", query: { ...query }}} as={{pathname: `/posts/${id}`, query: { ...query }}} shallow={true} >
+            {/* <Link href={`/posts/[id]?symbol=${query.symbol || "spy"}&page=${query.page || 1}`} as={`/posts/${query.id}?symbol=${query.symbol || "spy"}&page=${query.page || 1}`} > */}
                 <a className="block">
                     <div className="flex justify-between">
                         <div className="flex items-center">

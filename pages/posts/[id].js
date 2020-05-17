@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
-import Posts from '../../components/Posts';
+import PostList from '../../components/PostList';
 import Comment from '../../components/Comment';
 import InputComment from '../../components/InputComment';
 import draftToHtml from 'draftjs-to-html';
@@ -34,18 +34,7 @@ const POST = gql`
   }
 `;
 
-const comments = [
-  {
-    author: "phil",
-    comment: "hi"
-  },
-  {
-    author: "한울햄",
-    comment: "Bye"
-  }
-];
-
-const Post = ({ posts, stock }) => {
+const Post = ({ stock }) => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(POST, { variables: { id }})
@@ -87,19 +76,17 @@ const Post = ({ posts, stock }) => {
         </div>
         <InputComment />
       </div>
-      <Posts posts={posts} />
+      <PostList />
     </Layout>
   );
 };
 
 Post.getInitialProps = async function({ query }) {
     const symbol = query.symbol ? query.symbol : "spy"
-    const data = await fetch('https://api.tvmaze.com/search/shows?q=batman').then(res => res.json());
     const stock = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/quote?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
         .then(res => res.json())
   
     return {
-        posts: data.map(entry => entry.show),
         stock,
     };
 };

@@ -1,10 +1,10 @@
 import StandAloneLayout from "../../components/StandAloneLayout";
-import Posts from "../../components/Posts";
+import PostList from "../../components/PostList";
 
 export default () => {
     return (
         <StandAloneLayout>
-            <Posts />
+            <PostList />
         </StandAloneLayout>
     );
 };

@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import Layout from '../components/Layout';
-import Posts from '../components/Posts';
+import PostList from '../components/PostList';
 import StockChart from '../components/StockChart';
 
 const Index = ({ chartData, stock, symbol }) => {
@@ -15,7 +15,7 @@ const Index = ({ chartData, stock, symbol }) => {
                 } dangerouslySetInnerHTML={{__html: `${up ? "&#9650;" : "&#9660;"} ${gap.toFixed(2)}$ ${(gap / stock.latestPrice * 100).toFixed(2)}%`}}></span>
             </div>
             <StockChart chartData={chartData} symbol={symbol}  />
-            <Posts />
+            <PostList />
         </Layout>
     )
 }

@@ -66,12 +66,11 @@ const PRODUCTS = gql`
   }
 `;
 
-const Posts = () => {
+const PostList = () => {
     const router = useRouter();
     const symbol = router.query.symbol || "spy";
     const page = router.query.page || 1;
     const offset = (page - 1) * 10;
-    console.log(offset)
     const { loading, error, data } = useQuery(POSTS, {
       variables: {
         boardId: "ck9sdu1wl00033i89kigeocd7",
@@ -102,4 +101,4 @@ const Posts = () => {
     );
 }
 
-export default Posts;
+export default PostList;

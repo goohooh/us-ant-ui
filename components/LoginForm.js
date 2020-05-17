@@ -90,9 +90,9 @@ const LoginForm = () => {
             </div>
             <div className="border-t-1 border-solid border-gray-400 mt-3">
                 <Link href={`/signup`}>
-                    <button className="w-full mt-3 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 border border-green-500 hover:border-transparent rounded">
+                    <a className="w-full mt-3 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 border border-green-500 hover:border-transparent rounded">
                     회원가입 
-                    </button>
+                    </a>
                 </Link>
             </div>
         </form>

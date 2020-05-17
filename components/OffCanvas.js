@@ -47,7 +47,7 @@ export default ({ isMenuOpened, setIsMenuOpened }) => {
                             <div className="mt-4">
                                 <h4 className="text-lg"><span className="font-semibold">{user.username} 님!</span> 반갑습니다!</h4>
                                 <ul className="mt-2">
-                                    <li><Link href="/my/profile">프로필</Link></li>
+                                    <li><Link href="/my/profile"><a>프로필</a></Link></li>
                                     <li className="border-t-2 border-gray-200">작성 글 보기</li>
                                     <li className="border-t-2 border-gray-200">작성 댓글 보기</li>
                                 </ul>

@@ -25,11 +25,9 @@ class AntApp extends App {
         const { Component, pageProps, apollo, store } = this.props;
         return (
             <ApolloProvider client={apollo}>
-                <Container>
-                    <Provider store={store}>
+                <Provider store={store}>
                     <Component {...pageProps} />
-                    </Provider>
-                </Container>
+                </Provider>
             </ApolloProvider>
         );
     }
