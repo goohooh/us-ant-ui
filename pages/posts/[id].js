@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import PostList from '../../components/PostList';
 import Comment from '../../components/Comment';
@@ -15,6 +15,7 @@ const POST = gql`
       content
       likesCount
       updatedAt
+      isPostLiked
       comments {
         edges {
           node {
@@ -34,13 +35,30 @@ const POST = gql`
   }
 `;
 
+const TOGGLE_POST_LIKE = gql`
+  mutation TogglePostLike($postId: String!) {
+    togglePostLike(postId: $postId)
+  }
+`;
+
 const Post = ({ stock }) => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(POST, { variables: { id }})
+  const [toggleLike] = useMutation(TOGGLE_POST_LIKE, {
+    update(cache, { data: { togglePostLike } }) {
+      const { post } = cache.readQuery({ query: POST, variables: { id } });
+      const isPostLiked = !post.isPostLiked;
+      const likesCount = post.likesCount + (isPostLiked ? 1 : -1);
+      cache.writeQuery({
+        query: POST,
+        data: { post: { ...post, isPostLiked, likesCount, } },
+      });
+    }
+  })
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  const { post: { title, content, updatedAt, comments, likesCount } } = data;
+  const { post: { title, content, updatedAt, comments, likesCount, isPostLiked } } = data;
 
   return (
     <Layout stock={stock}>
@@ -59,7 +77,13 @@ const Post = ({ stock }) => {
         </div>
       </div>
       <div className="container p-4 flex justify-center">
-        <button className="bg-red-500 hover:bg-red-700 text-white text-xs rounded-full py-1 px-2 mr-2 flex items-center">
+        <button 
+          onClick={() => toggleLike({
+            variables: {
+              postId: id
+            }
+          })}
+          className={`bg-red-500 hover:bg-red-700 text-white text-xs rounded-full py-1 px-2 mr-2 flex items-center ${isPostLiked ? "bg-red-700" : ""}`}>
           <i className="material-icons text-xs">thumb_up</i>
           <span className="mx-1">가즈아</span>
           <span>{likesCount}</span>
