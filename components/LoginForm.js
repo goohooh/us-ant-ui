@@ -31,37 +31,39 @@ const LoginForm = () => {
     const router = useRouter();
 
     return (
-        <form className="mt-4">
+        <form className="mt-4" onSubmit={e => {
+            e.preventDefault();
+            signin({
+                variables: {
+                    email, password
+                }
+            }).then(({ data: { login } }) => {
+                if (login) {
+                    const { user, token } = login;
+                    const { query } = router;
+                    dispatch(authenticate({ user, token }));
+                    location.reload()
+                }
+            });
+        }}>
             <div className="mb-4">
                 <input 
+                    required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="ID" type="text" />
             </div>
             <div>
                 <input
+                    required
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Password" type="password" />
             </div>
             <div className="flex flex-row-reverse mb-6">
                 <button
+                    type="submit"
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
-                    onClick={e => {
-                        e.preventDefault();
-                        signin({ 
-                            variables: {
-                                email, password
-                            }
-                        }).then(({ data: { login } }) => {
-                            if (login) {
-                                const { user, token } = login;
-                                const { query } = router;
-                                dispatch(authenticate({ user, token }));
-                                location.reload()
-                            }
-                        });
-                    }}
                 >
                     로그인
                 </button>
@@ -90,7 +92,7 @@ const LoginForm = () => {
             </div>
             <div className="border-t-1 border-solid border-gray-400 mt-3">
                 <Link href={`/signup`}>
-                    <a className="w-full mt-3 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-1 border border-green-500 hover:border-transparent rounded">
+                    <a className="block w-full mt-3 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white text-center py-1 border border-green-500 hover:border-transparent rounded">
                     회원가입 
                     </a>
                 </Link>

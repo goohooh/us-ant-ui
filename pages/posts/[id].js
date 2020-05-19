@@ -7,6 +7,8 @@ import Comment from '../../components/Comment';
 import InputComment from '../../components/InputComment';
 import draftToHtml from 'draftjs-to-html';
 
+import { CurrentUserQuery } from '../../components/OffCanvas';
+
 const POST = gql`
   query Post($id: String!) {
     post(id: $id) {
@@ -45,15 +47,18 @@ const Post = ({ stock }) => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(POST, { variables: { id }})
+  const { data: currentUser } = useQuery(CurrentUserQuery);
   const [toggleLike] = useMutation(TOGGLE_POST_LIKE, {
     update(cache, { data: { togglePostLike } }) {
-      const { post } = cache.readQuery({ query: POST, variables: { id } });
-      const isPostLiked = !post.isPostLiked;
-      const likesCount = post.likesCount + (isPostLiked ? 1 : -1);
-      cache.writeQuery({
-        query: POST,
-        data: { post: { ...post, isPostLiked, likesCount, } },
-      });
+      if (togglePostLike) {
+        const { post } = cache.readQuery({ query: POST, variables: { id } });
+        const isPostLiked = !post.isPostLiked;
+        const likesCount = post.likesCount + (isPostLiked ? 1 : -1);
+        cache.writeQuery({
+          query: POST,
+          data: { post: { ...post, isPostLiked, likesCount, } },
+        });
+      }
     }
   })
   if (loading) return <p>Loading...</p>;
@@ -78,11 +83,14 @@ const Post = ({ stock }) => {
       </div>
       <div className="container p-4 flex justify-center">
         <button 
-          onClick={() => toggleLike({
-            variables: {
-              postId: id
-            }
-          })}
+          onClick={() => {
+            if (!currentUser) return;
+            toggleLike({
+              variables: {
+                postId: id
+              }
+            });
+          } }
           className={`bg-red-500 hover:bg-red-700 text-white text-xs rounded-full py-1 px-2 mr-2 flex items-center ${isPostLiked ? "bg-red-700" : ""}`}>
           <i className="material-icons text-xs">thumb_up</i>
           <span className="mx-1">가즈아</span>
@@ -98,7 +106,9 @@ const Post = ({ stock }) => {
               : (<p className="text-center text-gray-600">처음 댓글을 작성해보세요!</p>)
           }
         </div>
-        <InputComment />
+        {
+          currentUser && <InputComment />
+        }
       </div>
       <PostList />
     </Layout>

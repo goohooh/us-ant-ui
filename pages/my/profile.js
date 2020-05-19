@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks';
-import { useSelector } from "react-redux";
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import StandAloneLayout from "../../components/StandAloneLayout";
+import Router from "next/router";
+
+import { CurrentUserQuery } from "../../components/OffCanvas";
 
 const SIGNUP_MUTATION = gql`
   mutation SignUp($email: String!, $password: String!, $name: String!, $username: String!) {
@@ -13,13 +15,26 @@ const SIGNUP_MUTATION = gql`
 `;
 
 export default () => {
-    const { user } = useSelector(state => state.authentication);
-    const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-    const [username, setUsername] = useState(user.username || user.name);
-    const [signup, { data }] = useMutation(SIGNUP_MUTATION);
+    const [username, setUsername] = useState("");
+
+    const [signup] = useMutation(SIGNUP_MUTATION);
+    const { loading, error, data } = useQuery(CurrentUserQuery);
+
+    useEffect(() => {
+        if (data && data.currentUser) {
+            const { name, email, username } = data.currentUser;
+            setName(name);
+            setEmail(email);
+            setUsername(username);
+        }
+    }, [data])
+
+    if (loading) return <div>Loading...</div>
+    if (error) return Router.push("/" + location.search);
 
     return (
         <StandAloneLayout>

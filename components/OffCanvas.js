@@ -7,7 +7,7 @@ import actions from "../redux/actions/authActions";
 const { deauthenticate, setUser } = actions;
 import gql from 'graphql-tag'
 
-const CurrentUserQuery = gql`
+export const CurrentUserQuery = gql`
   query CurrentUser {
       currentUser {
         email
@@ -54,7 +54,7 @@ export default ({ isMenuOpened, setIsMenuOpened }) => {
                                 <div className="mt-4">
                                     <button onClick={() => {
                                         dispatch(deauthenticate());
-                                        location.href = "/";
+                                        location.href = "/" + location.search;
                                     }}>
                                         Logout
                                     </button>
