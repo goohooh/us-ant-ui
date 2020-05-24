@@ -24,13 +24,13 @@ export default ({ comment }) => {
     const [toggleLike] = useMutation(TOGGLE_COMMENT_LIKE, {
         update(cache, { data: { toggleCommentLike } }) {
             if (toggleCommentLike) {
-                const { comment } = cache.readQuery({ query: COMMENT, variables: { id: comment.id } });
-                const isCommentLiked = !comment.isCommentLiked;
-                const likesCount = comment.CommentlikesCount + (isCommentLiked ? 1 : -1);
-                cache.writeQuery({
-                    query: POST,
-                    data: { comment: { ...comment, isPostLiked, likesCount, } },
-                });
+                // const { comment } = cache.readQuery({ query: COMMENT, variables: { id: comment.id } });
+                // const isCommentLiked = !comment.isCommentLiked;
+                // const likesCount = comment.CommentlikesCount + (isCommentLiked ? 1 : -1);
+                // cache.writeQuery({
+                //     query: POST,
+                //     data: { comment: { ...comment, isPostLiked, likesCount, } },
+                // });
             }
         }
     });
