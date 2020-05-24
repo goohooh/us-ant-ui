@@ -33,6 +33,7 @@
     "next-redux-wrapper": "^6.0.0-rc.7",
     "next-with-apollo": "^5.0.0",
     "react": "^16.13.0",
+    "react-apollo": "^3.1.5",
     "react-autocomplete": "^1.8.1",
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.13.0",
