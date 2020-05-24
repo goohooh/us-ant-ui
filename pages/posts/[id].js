@@ -24,6 +24,8 @@ const POST = gql`
             id
             text
             updatedAt
+            CommentlikesCount
+            isCommentLiked
             user {
               id
               email

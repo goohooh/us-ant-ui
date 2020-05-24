@@ -2,6 +2,41 @@ import fetch from 'isomorphic-unfetch';
 import Layout from '../components/Layout';
 import PostList from '../components/PostList';
 import StockChart from '../components/StockChart';
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks';
+
+const PRODUCTS = gql`
+  query Products($symbol: String!) {
+    products(term: $symbol) {
+      id
+      symbol
+      engName
+      korName
+      board {
+        id
+        posts {
+          totalCount
+          edges {
+            node {
+              id
+              title
+              commentsCount
+              likesCount
+              updatedAt
+            }
+            cursor
+          }
+          pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+      }
+    }
+  }
+`;
 
 const Index = ({ chartData, stock, symbol }) => {
     const gap = stock.latestPrice - stock.previousClose;

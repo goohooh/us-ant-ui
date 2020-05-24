@@ -34,44 +34,10 @@ const POSTS = gql`
   }
 `;
 
-const PRODUCTS = gql`
-  query Products($symbol: String!) {
-    products(term: $symbol) {
-      id
-      symbol
-      engName
-      korName
-      board {
-        id
-        posts {
-          totalCount
-          edges {
-            node {
-              id
-              title
-              commentsCount
-              likesCount
-              updatedAt
-            }
-            cursor
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            hasPreviousPage
-          }
-        }
-      }
-    }
-  }
-`;
-
 const PostList = () => {
     const router = useRouter();
     const symbol = router.query.symbol || "spy";
     const page = router.query.page || 1;
-    const offset = (page - 1) * 10;
     const { data: currentUser } = useQuery(CurrentUserQuery);
     const { loading, error, data } = useQuery(POSTS, {
       variables: {

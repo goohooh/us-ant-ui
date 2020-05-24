@@ -20,7 +20,7 @@ const linkStyle = {
 const DashboardHeader = () => {
   return (
     <div style={headerStyle} className="flex flex-row justify-center items-center shadow-sm">
-      <Link href="/">
+      <Link href={"/" + (location.search || "?symbol=spy")}>
         <a style={linkStyle}>
           <img src="/logo.png" alt="logo" />
         </a>
