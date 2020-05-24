@@ -22,11 +22,37 @@ const SIGNIN_MUTATION = gql`
     }
   }
 `;
+const SIGNIN_FACEBOOK_MUTATION = gql`
+  mutation GoogleLogin($accessToken: String!) {
+    loginByGoogle(accessToken: $accessToken) {
+        token
+        user {
+            email
+            name
+            username
+        }
+    }
+  }
+`;
+const SIGNIN_GOOGLE_MUTATION = gql`
+  mutation FacebookLogin($accessToken: String!) {
+    loginByFacebook(accessToken: $accessToken) {
+        token
+        user {
+            email
+            name
+            username
+        }
+    }
+  }
+`;
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [signin] = useMutation(SIGNIN_MUTATION)
+    const [signinFacebook] = useMutation(SIGNIN_FACEBOOK_MUTATION);
+    const [signinGoogle] = useMutation(SIGNIN_GOOGLE_MUTATION)
     const dispatch = useDispatch()
     const router = useRouter();
 
@@ -40,7 +66,6 @@ const LoginForm = () => {
             }).then(({ data: { login } }) => {
                 if (login) {
                     const { user, token } = login;
-                    const { query } = router;
                     dispatch(authenticate({ user, token }));
                     location.reload()
                 }
@@ -74,7 +99,23 @@ const LoginForm = () => {
                     appId="679383572879991"
                     scope="public_profile, email, user_birthday"
                     fields="name,email,picture"
-                    callback={res => console.log(res)}
+                    callback={res => {
+                        debugger;
+                        signinFacebook({
+                            variables: {
+                                accessToken: res.accessToken,
+                            }
+                        }).then(({ data: { loginByFacebook } }) => {
+                            if (loginByFacebook) {
+                                const { user, token } = loginByFacebook;
+                                console.log(user, token)
+                                dispatch(authenticate({ user, token }));
+                                setTimeout(() => {
+                                    location.reload()
+                                })
+                            }
+                        });
+                    }}
                     render={renderProps => (
                         <button onClick={renderProps.onClick} className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Facebook 로그인</button>
                     )}
@@ -85,7 +126,21 @@ const LoginForm = () => {
                     render={renderProps => (
                         <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="w-full mt-2 bg-white hover:bg-gray-300 text-black font-bold py-1 px-4 rounded border-2 border-solid">Google 로그인</button>
                     )}
-                    onSuccess={res => console.log(res)}
+                    onSuccess={res => {
+                        signinGoogle({
+                            variables: {
+                                accessToken: res.accessToken,
+                            }
+                        }).then(({ data: { loginByGoogle } }) => {
+                            if (loginByGoogle) {
+                                const { user, token } = loginByGoogle;
+                                dispatch(authenticate({ user, token }));
+                                setTimeout(() => {
+                                    location.reload()
+                                })
+                            }
+                        });
+                    }}
                     onFailure={res => console.error(res)}
                     cookiePolicy={'single_host_origin'}
                 />
