@@ -59,7 +59,7 @@ export default () => {
             const data = cache.readQuery({ query: POST, variables: { id: postId }});
             const comment = { ...createComment, };
             const post = JSON.parse(JSON.stringify(data.post));
-            post.comments.edges.unshift({
+            post.comments.edges.push({
                 node: comment,
                 __typename: "CommentEdge"
             });
@@ -72,7 +72,8 @@ export default () => {
     });
 
     return (
-        <div className="container">
+        <div className="container fixed bottom-0 left-0 w-100 p-4 bg-white rounded-lg shadow-upper">
+            <h4 className="text-sm">댓글</h4>
             <textarea 
                 value={text}
                 onChange={e => {setText(e.target.value)}}

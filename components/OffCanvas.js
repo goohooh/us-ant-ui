@@ -10,6 +10,7 @@ import gql from 'graphql-tag'
 export const CurrentUserQuery = gql`
   query CurrentUser {
       currentUser {
+        id
         email
         name
         username

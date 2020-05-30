@@ -18,6 +18,7 @@ const POSTS = gql`
           viewsCount
           updatedAt
           user {
+            id
             username
           }
         }
@@ -48,7 +49,7 @@ const PostList = () => {
     const posts = data.posts.edges || [];
     const count = data.posts.totalCount;
     return (
-        <div className="container p-4">
+        <div className="container p-4 pb-48">
             <div className="flex justify-between align-center py-2">
               <h4 className="text-sm">Posts</h4>
                 {
@@ -64,31 +65,32 @@ const PostList = () => {
                 <PostItem key={node.id} item={node} />
             ))}
             </ul>
-            <button onClick={() => {
-              const { endCursor } = data.posts.pageInfo;
-              fetchMore({
-                variables: {
-                  boardId: "ck9sdu1wl00033i89kigeocd7",
-                  cursor: endCursor
-                },
-                updateQuery: (previousResult, { fetchMoreResult }) => {
-                  const newEdges = fetchMoreResult.posts.edges;
-                  const pageInfo = fetchMoreResult.posts.pageInfo;
-      
-                  return newEdges.length
-                    ? {
-                        // Put the new comments at the end of the list and update `pageInfo`
-                        // so we have the new `endCursor` and `hasNextPage` values
-                        posts: {
-                          __typename: previousResult.posts.__typename,
-                          edges: [...previousResult.posts.edges, ...newEdges],
-                          pageInfo
+            <div className="flex justify-center">
+              <button className="text-purple-600 bg-transparent" onClick={() => {
+                const { endCursor } = data.posts.pageInfo;
+                fetchMore({
+                  variables: {
+                    boardId: "ck9sdu1wl00033i89kigeocd7",
+                    cursor: endCursor
+                  },
+                  updateQuery: (previousResult, { fetchMoreResult }) => {
+                    const newEdges = fetchMoreResult.posts.edges;
+                    const pageInfo = fetchMoreResult.posts.pageInfo;
+                    return newEdges.length
+                      ? {
+                          // Put the new comments at the end of the list and update `pageInfo`
+                          // so we have the new `endCursor` and `hasNextPage` values
+                          posts: {
+                            __typename: previousResult.posts.__typename,
+                            edges: [...previousResult.posts.edges, ...newEdges],
+                            pageInfo
+                          }
                         }
-                      }
-                    : previousResult;
-                }
-              })
-            }}>더보기</button>
+                      : previousResult;
+                  }
+                })
+              }}>더보기</button>
+            </div>
         </div>
     );
 }

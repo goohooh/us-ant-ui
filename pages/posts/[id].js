@@ -18,6 +18,9 @@ const POST = gql`
       likesCount
       updatedAt
       isPostLiked
+      user {
+        id
+      }
       comments {
         edges {
           node {
@@ -49,7 +52,7 @@ const Post = ({ stock }) => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(POST, { variables: { id }})
-  const { data: currentUser } = useQuery(CurrentUserQuery);
+  const { cloading, cerror, data: currentUser } = useQuery(CurrentUserQuery);
   const [toggleLike] = useMutation(TOGGLE_POST_LIKE, {
     update(cache, { data: { togglePostLike } }) {
       if (togglePostLike) {
@@ -63,16 +66,22 @@ const Post = ({ stock }) => {
       }
     }
   })
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-  const { post: { title, content, updatedAt, comments, likesCount, isPostLiked } } = data;
+  if (loading || cloading) return <p>Loading...</p>;
+  if (error || cerror) return <p>Error :(</p>;
+  const { post: { title, content, updatedAt, comments, likesCount, isPostLiked, user } } = data;
 
   return (
     <Layout stock={stock}>
       <div className="container p-4">
         <div className="rounded shadow-md">
-          <div className="p-2 rounded-t bg-gray-100">
+          <div className="flex justify-between p-2 rounded-t bg-gray-100">
             <h1 className="text-xl text-blue-300">{title}</h1>
+            {
+              currentUser.currentUser.id === user.id
+                ? (<button className="bg-transparent text-gray-500 text-xs">글 수정</button>)
+                : null
+            }
+            
           </div>
           <div className="p-2">
             <div className="text-xs flex justify-between mb-2">
