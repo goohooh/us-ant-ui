@@ -3,12 +3,11 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks';
 import PostItem from './PostItem';
-import Paginator from './Paginator';
 import { CurrentUserQuery } from './OffCanvas';
 
 const POSTS = gql`
-  query Posts($boardId: String!) {
-    posts(boardId: $boardId) {
+  query Posts($boardId: String!, $cursor: DateTime) {
+    posts(boardId: $boardId, cursor: $cursor) {
       totalCount
       edges {
         node {
@@ -39,10 +38,9 @@ const PostList = () => {
     const symbol = router.query.symbol || "spy";
     const page = router.query.page || 1;
     const { data: currentUser } = useQuery(CurrentUserQuery);
-    const { loading, error, data } = useQuery(POSTS, {
+    const { loading, error, data, fetchMore } = useQuery(POSTS, {
       variables: {
         boardId: "ck9sdu1wl00033i89kigeocd7",
-        // offset,
       }
     });
     if (loading) return <p>Loading...</p>;
@@ -66,7 +64,31 @@ const PostList = () => {
                 <PostItem key={node.id} item={node} />
             ))}
             </ul>
-          <Paginator count={count} page={page} />
+            <button onClick={() => {
+              const { endCursor } = data.posts.pageInfo;
+              fetchMore({
+                variables: {
+                  boardId: "ck9sdu1wl00033i89kigeocd7",
+                  cursor: endCursor
+                },
+                updateQuery: (previousResult, { fetchMoreResult }) => {
+                  const newEdges = fetchMoreResult.posts.edges;
+                  const pageInfo = fetchMoreResult.posts.pageInfo;
+      
+                  return newEdges.length
+                    ? {
+                        // Put the new comments at the end of the list and update `pageInfo`
+                        // so we have the new `endCursor` and `hasNextPage` values
+                        posts: {
+                          __typename: previousResult.posts.__typename,
+                          edges: [...previousResult.posts.edges, ...newEdges],
+                          pageInfo
+                        }
+                      }
+                    : previousResult;
+                }
+              })
+            }}>더보기</button>
         </div>
     );
 }
