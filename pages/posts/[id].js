@@ -77,7 +77,7 @@ const Post = ({ stock }) => {
           <div className="flex justify-between p-2 rounded-t bg-gray-100">
             <h1 className="text-xl text-blue-300">{title}</h1>
             {
-              currentUser.currentUser.id === user.id
+              currentUser && currentUser.currentUser.id === user.id
                 ? (<button className="bg-transparent text-gray-500 text-xs">글 수정</button>)
                 : null
             }
