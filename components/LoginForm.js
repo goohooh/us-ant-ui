@@ -23,7 +23,7 @@ const SIGNIN_MUTATION = gql`
     }
   }
 `;
-const SIGNIN_FACEBOOK_MUTATION = gql`
+const SIGNIN_GOOGLE_MUTATION = gql`
   mutation GoogleLogin($accessToken: String!) {
     loginByGoogle(accessToken: $accessToken) {
         token
@@ -35,7 +35,7 @@ const SIGNIN_FACEBOOK_MUTATION = gql`
     }
   }
 `;
-const SIGNIN_GOOGLE_MUTATION = gql`
+const SIGNIN_FACEBOOK_MUTATION = gql`
   mutation FacebookLogin($accessToken: String!) {
     loginByFacebook(accessToken: $accessToken) {
         token
@@ -94,14 +94,13 @@ const LoginForm = () => {
                     로그인
                 </button>
             </div>
-            <div>
+            <div onSubmit={e => e.stopPropagation()}>
                 {/* <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-4 rounded">Kakao 로그인</button> */}
                 <FacebookLogin
                     appId="679383572879991"
                     scope="public_profile, email, user_birthday"
                     fields="name,email,picture"
                     callback={res => {
-                        debugger;
                         signinFacebook({
                             variables: {
                                 accessToken: res.accessToken,

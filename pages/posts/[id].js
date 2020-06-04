@@ -6,6 +6,7 @@ import PostList from '../../components/PostList';
 import Comment from '../../components/Comment';
 import InputComment from '../../components/InputComment';
 import draftToHtml from 'draftjs-to-html';
+import Link from "next/link";
 
 import { CurrentUserQuery } from '../../components/OffCanvas';
 
@@ -48,7 +49,7 @@ const TOGGLE_POST_LIKE = gql`
   }
 `;
 
-const Post = ({ stock }) => {
+const Post = ({ stock, symbol }) => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(POST, { variables: { id }})
@@ -78,7 +79,11 @@ const Post = ({ stock }) => {
             <h1 className="text-xl text-blue-300">{title}</h1>
             {
               currentUser && currentUser.currentUser.id === user.id
-                ? (<button className="bg-transparent text-gray-500 text-xs">글 수정</button>)
+                ? (
+                  <Link href="/posts/[id]/edit" as={`/posts/${id}/edit?symbol=${symbol}`}>
+                    <a className="bg-transparent text-gray-500 text-xs">글 수정</a>
+                  </Link>
+                  )
                 : null
             }
             
@@ -133,6 +138,7 @@ Post.getInitialProps = async function({ query }) {
   
     return {
         stock,
+        symbol,
     };
 };
 

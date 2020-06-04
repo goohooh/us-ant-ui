@@ -9,7 +9,7 @@ class PostEditor extends React.Component {
 
         this.state = {
             title: props.title || "",
-            editorState: props.value ? convertFromRaw(props.value) : EditorState.createEmpty(),
+            editorState: props.content ? EditorState.createWithContent(convertFromRaw(props.content)) : EditorState.createEmpty(),
         };
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
