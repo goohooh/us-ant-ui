@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
@@ -9,28 +10,76 @@ const TOGGLE_COMMENT_LIKE = gql`
   }
 `;
 
-const COMMENT = gql`
-  query Comment($id: String!) {
-    comment(id: $id) {
+// const COMMENT = gql`
+//   query Comment($id: String!) {
+//     comment(id: $id) {
+//       id
+//       isComemntLiked
+//       CommentlikesCount
+//     }
+//   }
+// `;
+const POST = gql`
+  query Post($id: String!) {
+    post(id: $id) {
       id
-      isComemntLiked
-      CommentlikesCount
+      title
+      content
+      likesCount
+      updatedAt
+      isPostLiked
+      user {
+        id
+      }
+      comments {
+        edges {
+          node {
+            id
+            text
+            updatedAt
+            CommentlikesCount
+            isCommentLiked
+            user {
+              id
+              email
+              name
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
 
 export default ({ comment }) => {
+    const router = useRouter();
+    const { id } = router.query;
     const { data: currentUser } = useQuery(CurrentUserQuery);
     const [toggleLike] = useMutation(TOGGLE_COMMENT_LIKE, {
         update(cache, { data: { toggleCommentLike } }) {
             if (toggleCommentLike) {
-                // const { comment } = cache.readQuery({ query: COMMENT, variables: { id: comment.id } });
-                // const isCommentLiked = !comment.isCommentLiked;
-                // const likesCount = comment.CommentlikesCount + (isCommentLiked ? 1 : -1);
-                // cache.writeQuery({
-                //     query: POST,
-                //     data: { comment: { ...comment, isPostLiked, likesCount, } },
-                // });
+                const { post } = cache.readQuery({ query: POST, variables: { id } });
+                const comments = { ...post.comments };
+                const edges = [...post.comments.edges];
+                const targetComment = edges.find(({ node: { id }}) => id === comment.id);
+                const targetCommentIndex = edges.findIndex(({ node: { id }}) => id === comment.id);
+                const isCommentLiked = !targetComment.node.isCommentLiked;
+                const CommentlikesCount = targetComment.node.CommentlikesCount + (isCommentLiked ? 1 : -1);
+                const newComment = {
+                    ...targetComment,
+                    node: {
+                        ...targetComment.node,
+                        isCommentLiked,
+                        CommentlikesCount,
+                    }
+                }
+                edges.splice(targetCommentIndex, 1, newComment)
+                
+                cache.writeQuery({
+                    query: POST,
+                    data: { post: { ...post, comments: { ...comments, edges } } },
+                });
             }
         }
     });
