@@ -7,14 +7,6 @@ import gql from 'graphql-tag'
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';
 
-const UPDATE_POST_MUTATION = gql`
-  mutation UpdatePost($postId: String!, $title: String!, $content: String!) {
-    updatePost(postId: $postId, title: $title, content: $content) {
-        id
-    }
-  }
-`;
-
 const POST_AND_COMMENTS = gql`
   query PostAndComments($postId: String!) {
     post(id: $postId) {

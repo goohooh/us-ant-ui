@@ -58,6 +58,7 @@ const LoginForm = () => {
     const router = useRouter();
 
     return (
+        <>
         <form className="mt-4" onSubmit={e => {
             e.preventDefault();
             signin({
@@ -94,13 +95,15 @@ const LoginForm = () => {
                     로그인
                 </button>
             </div>
-            <div onSubmit={e => e.stopPropagation()}>
+        </form>
+            <div >
                 {/* <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-4 rounded">Kakao 로그인</button> */}
                 <FacebookLogin
                     appId="679383572879991"
                     scope="public_profile, email, user_birthday"
                     fields="name,email,picture"
                     callback={res => {
+                        console.log(res.accessToken)
                         signinFacebook({
                             variables: {
                                 accessToken: res.accessToken,
@@ -108,11 +111,10 @@ const LoginForm = () => {
                         }).then(({ data: { loginByFacebook } }) => {
                             if (loginByFacebook) {
                                 const { user, token } = loginByFacebook;
-                                console.log(user, token)
                                 dispatch(authenticate({ user, token }));
-                                setTimeout(() => {
-                                    location.reload()
-                                })
+                                // setTimeout(() => {
+                                //     window.location.reload()
+                                // })
                             }
                         });
                     }}
@@ -152,7 +154,7 @@ const LoginForm = () => {
                     </a>
                 </Link>
             </div>
-        </form>
+        </>
     );
 };
 

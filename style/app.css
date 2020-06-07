@@ -120,6 +120,20 @@
   position: relative;
 }
 
+.rdw-block-wrapper,
+.rdw-fontsize-wrapper,
+.rdw-fontfamily-wrapper,
+.rdw-list-wrapper,
+.rdw-text-align-wrapper,
+.rdw-colorpicker-wrapper,
+.rdw-link-wrapper,
+.rdw-remove-wrapper,
+.rdw-emoji-wrapper,
+.rdw-history-wrapper,
+.rdw-inline-wrapper {
+  display: none !important;
+}
+
 .rdw-editor-toolbar .rdw-emoji-wrapper,
 .rdw-editor-toolbar .rdw-embedded-wrapper,
 .rdw-editor-toolbar .rdw-link-wrapper,
