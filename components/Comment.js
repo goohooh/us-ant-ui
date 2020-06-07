@@ -86,14 +86,14 @@ export default ({ comment }) => {
 
     return (
         <div className="pb-2">
-            <div className="rounded shadow-md bg-white">
+            <div className={`rounded shadow-md ${comment.isNew ? "bg-blue-100" : "bg-white"}`}>
                 <div className="p-2">
                 <div className="text-xs flex justify-between mb-2">
                     <span className="text-gray-600">{comment.user.username}</span>
                     <span className="text-gray-400">{new Date(comment.updatedAt).toDateString()}</span>
                 </div>
                 <div className="flex justify-between">
-                    <p className="text-md">{comment.text}</p>
+                    <p className="text-md break-words">{comment.text}</p>
                     <button 
                         onClick={() => {
                             if (!currentUser) return;

@@ -21,8 +21,12 @@ export default props => {
                     href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin-ext"
                 />
             </Head>
-            <div className="main">
-                <Header {...props} setIsMenuOpened={setIsMenuOpened} />
+            <div className={`main ${props.hideHeader ? "nopad" : ""}`}>
+                {
+                    props.hideHeader
+                        ? null
+                        : (<Header {...props} setIsMenuOpened={setIsMenuOpened} />)
+                }
                 {props.children}
             </div>
             <OffCanvas isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />

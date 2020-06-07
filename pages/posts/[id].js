@@ -23,6 +23,7 @@ const POST = gql`
         id
       }
       comments {
+        totalCount
         edges {
           node {
             id
@@ -123,10 +124,28 @@ const Post = ({ stock, symbol }) => {
           }
         </div>
         {
-          currentUser && <InputComment />
+          currentUser && (
+             <div className="flex justify-center p-4 text-gray-500 bg-gray-200 rounded-b">
+                <Link href="/posts/[id]/comments" as={`/posts/${id}/comments?symbol=${symbol}`}>
+                  <a>댓글 등록하기</a>
+                </Link>
+            </div>
+          )
         }
       </div>
       <PostList />
+      {
+        currentUser && (
+          <div className="container fixed bottom-0 left-0 flex justify-end w-100 py-2 px-4 bg-white rounded-t-lg shadow-upper">
+            <Link href="/posts/[id]/comments" as={`/posts/${id}/comments?symbol=${symbol}`}>
+              <a className="flex align-center">
+                <i className="material-icons">comment</i>
+                <span className="ml-1 text-red-400">{comments.totalCount}</span>
+              </a>
+            </Link>
+          </div>
+        )
+      }
     </Layout>
   );
 };

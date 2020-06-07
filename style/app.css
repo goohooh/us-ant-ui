@@ -2,6 +2,9 @@
     position: relative;
     padding-top: 70px;
 }
+.nopad {
+    padding: 0;
+}
 .off-canvas {
     background: #fff;
     height: 100vh;
