@@ -100,21 +100,23 @@ const LoginForm = () => {
                 {/* <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-4 rounded">Kakao 로그인</button> */}
                 <FacebookLogin
                     appId="679383572879991"
+                    // appId="575536876504340"
                     scope="public_profile, email, user_birthday"
                     fields="name,email,picture"
                     callback={res => {
-                        console.log(res.accessToken)
+                        // const test = "EAAILcp8URRQBAArWZA4N1tXrQgacmX5d7kR9F1ja5XBGC54pyF5H3f9TcwR6nWZBCqyUJTCx3R77YnsM28AEhNOqDXQVyg5yPlq8ObV6hb9hMoRHI9sAZADYZAtOLBZA7H2iKce7R9foIVGfZBPmjuZBRhkVesDnSZCnsUbrSOGIyDltdtKehyRgZCZAGbmJ8afv26YQcIeAwarQZDZD";
                         signinFacebook({
                             variables: {
                                 accessToken: res.accessToken,
+                                // accessToken: test,
                             }
                         }).then(({ data: { loginByFacebook } }) => {
                             if (loginByFacebook) {
                                 const { user, token } = loginByFacebook;
                                 dispatch(authenticate({ user, token }));
-                                // setTimeout(() => {
-                                //     window.location.reload()
-                                // })
+                                setTimeout(() => {
+                                    window.location.reload()
+                                })
                             }
                         });
                     }}
