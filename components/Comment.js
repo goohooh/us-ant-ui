@@ -84,12 +84,11 @@ export default ({ comment }) => {
                       <span className="ml-2 flex-grow text-gray-400">{new Date(comment.updatedAt).toDateString()}</span>
                       {
                         currentUser && currentUser.currentUser.id === comment.user.id
-                          ? (
-                            <Link href={`/comments/${comment.id}/edit`}>
+                          ? (<Link href={`/comments/${comment.id}/edit`}>
                               <a className="mr-2 btn text-gray-500">
                               수정
-                              </a>)
-                            </Link>
+                              </a>
+                            </Link>)
                           : null
                       }
                   </div>
