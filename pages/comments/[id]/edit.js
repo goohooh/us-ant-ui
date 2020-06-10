@@ -6,35 +6,9 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';
+import { COMMENT } from "../../../gql/queries";
+import { UPDATE_COMMENT } from "../../../gql/mutations";
 
-const COMMENT = gql`
-  query Comment($id: String!) {
-    comment(commentId: $id) {
-        id
-        text
-        post {
-            id
-        }
-        user {
-            id
-            email
-            name
-            username
-        }
-    }
-  }
-`;
-
-const UPDATE_COMMENT = gql`
-  mutation updateComment($id: String!, $text: String!) {
-    updateComment(commentId: $id, text: $text) {
-        id
-        post {
-            id
-        }
-    }
-  }
-`;
 
 const Comments = () => {
     const [text, setText] = useState("");

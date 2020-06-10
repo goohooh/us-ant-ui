@@ -1,52 +1,13 @@
 import { useRouter } from 'next/router';
-import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
-import { CurrentUserQuery } from './OffCanvas';
-
-const TOGGLE_COMMENT_LIKE = gql`
-  mutation ToggleCommentLike($commentId: String!) {
-    toggleCommentLike(commentId: $commentId)
-  }
-`;
-
-const POST = gql`
-  query Post($id: String!) {
-    post(id: $id) {
-      id
-      title
-      content
-      likesCount
-      updatedAt
-      isPostLiked
-      user {
-        id
-      }
-      comments {
-        edges {
-          node {
-            id
-            text
-            updatedAt
-            CommentlikesCount
-            isCommentLiked
-            user {
-              id
-              email
-              name
-              username
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { CURRENT_USER, POST } from '../gql/queries';
+import { TOGGLE_COMMENT_LIKE } from '../gql/mutations';
 
 export default ({ comment }) => {
     const router = useRouter();
     const { id } = router.query;
-    const { data: currentUser } = useQuery(CurrentUserQuery);
+    const { data: currentUser } = useQuery(CURRENT_USER);
     const [toggleLike] = useMutation(TOGGLE_COMMENT_LIKE, {
         update(cache, { data: { toggleCommentLike } }) {
             if (toggleCommentLike) {

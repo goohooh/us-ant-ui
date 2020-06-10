@@ -2,7 +2,6 @@ import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertFromRaw, convertToRaw } from 'draft-js';
 
-
 class PostEditor extends React.Component {
     constructor(props) {
         super(props);

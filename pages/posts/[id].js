@@ -1,60 +1,19 @@
 import { useRouter } from 'next/router';
-import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import PostList from '../../components/PostList';
 import Comment from '../../components/Comment';
-import InputComment from '../../components/InputComment';
 import draftToHtml from 'draftjs-to-html';
 import Link from "next/link";
 
-import { CurrentUserQuery } from '../../components/OffCanvas';
-
-const POST = gql`
-  query Post($id: String!) {
-    post(id: $id) {
-      id
-      title
-      content
-      likesCount
-      updatedAt
-      isPostLiked
-      user {
-        id
-      }
-      comments {
-        totalCount
-        edges {
-          node {
-            id
-            text
-            updatedAt
-            CommentlikesCount
-            isCommentLiked
-            user {
-              id
-              email
-              name
-              username
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const TOGGLE_POST_LIKE = gql`
-  mutation TogglePostLike($postId: String!) {
-    togglePostLike(postId: $postId)
-  }
-`;
+import { CURRENT_USER, POST } from "../../gql/queries";
+import { TOGGLE_POST_LIKE } from "../../gql/mutations";
 
 const Post = ({ stock, symbol }) => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(POST, { variables: { id }})
-  const { cloading, cerror, data: currentUser } = useQuery(CurrentUserQuery);
+  const { cloading, cerror, data: currentUser } = useQuery(CURRENT_USER);
   const [toggleLike] = useMutation(TOGGLE_POST_LIKE, {
     update(cache, { data: { togglePostLike } }) {
       if (togglePostLike) {

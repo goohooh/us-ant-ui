@@ -1,58 +1,11 @@
 import { useState } from "react";
-import Router from 'next/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag'
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';
-
-const POST_AND_COMMENTS = gql`
-  query PostAndComments($postId: String!) {
-    post(id: $postId) {
-      id
-      title
-      likesCount
-      isPostLiked
-    }
-    comments(postId: $postId, offset: 50) {
-      totalCount
-      edges {
-        node {
-          id
-          text
-          CommentlikesCount
-          isCommentLiked
-          updatedAt
-          user {
-            id
-            email
-            name
-            username
-          }
-        }
-      }
-    }
-  }
-`;
-
-const CREATE_COMMENT = gql`
-  mutation CreateComment($postId: String!, $text: String!) {
-    createComment(postId: $postId, text: $text) {
-        id
-        text
-        updatedAt
-        CommentlikesCount
-        isCommentLiked
-        user {
-            id
-            email
-            name
-            username
-        }
-    }
-  }
-`;
+import { POST_AND_COMMENTS } from "../../../gql/queries";
+import { CREATE_COMMENT } from "../../../gql/mutations";
 
 const Comments = () => {
     const [text, setText] = useState("");

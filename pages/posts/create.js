@@ -1,16 +1,8 @@
 import Router from 'next/router';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag'
 import dynamic from 'next/dynamic'
 import Layout from '../../components/Layout';
-
-const CREATE_POST_MUTATION = gql`
-  mutation CreatePost($boardId: String!, $title: String!, $content: String!) {
-    createPost(boardId: $boardId, title: $title, content: $content) {
-        id
-    }
-  }
-`;
+import { CREATE_POST_MUTATION } from "../../gql/mutations";
 
 const PostEditor = dynamic(
   () => import('../../components/PostEditor'),

@@ -4,15 +4,8 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import StandAloneLayout from "../../components/StandAloneLayout";
 import Router from "next/router";
 
-import { CurrentUserQuery } from "../../components/OffCanvas";
-
-const SIGNUP_MUTATION = gql`
-  mutation SignUp($email: String!, $password: String!, $name: String!, $username: String!) {
-    signUp(email: $email, password: $password, name: $name, username: $username) {
-        token
-    }
-  }
-`;
+import { CURRENT_USER } from "../../gql/queries";
+import { SIGNUP_MUTATION } from "../../gql/mutations";
 
 export default () => {
     const [name, setName] = useState("");
@@ -22,7 +15,7 @@ export default () => {
     const [username, setUsername] = useState("");
 
     const [signup] = useMutation(SIGNUP_MUTATION);
-    const { loading, error, data } = useQuery(CurrentUserQuery);
+    const { loading, error, data } = useQuery(CURRENT_USER);
 
     useEffect(() => {
         if (data && data.currentUser) {

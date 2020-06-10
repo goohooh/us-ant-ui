@@ -4,14 +4,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import dynamic from 'next/dynamic'
 import Layout from '../../../components/Layout';
-
-const UPDATE_POST_MUTATION = gql`
-  mutation UpdatePost($postId: String!, $title: String!, $content: String!) {
-    updatePost(postId: $postId, title: $title, content: $content) {
-        id
-    }
-  }
-`;
+import { UPDATE_POST_MUTATION } from "../../../gql/mutations";
 
 const POST = gql`
   query Post($id: String!) {

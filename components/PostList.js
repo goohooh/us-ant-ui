@@ -3,42 +3,13 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks';
 import PostItem from './PostItem';
-import { CurrentUserQuery } from './OffCanvas';
-
-const POSTS = gql`
-  query Posts($boardId: String!, $cursor: DateTime) {
-    posts(boardId: $boardId, cursor: $cursor) {
-      totalCount
-      edges {
-        node {
-          id
-          title
-          commentsCount
-          likesCount
-          viewsCount
-          updatedAt
-          user {
-            id
-            username
-          }
-        }
-        cursor
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        hasPreviousPage
-      } 
-    }
-  }
-`;
+import { POSTS, CURRENT_USER } from "../gql/queries";
 
 const PostList = () => {
     const router = useRouter();
     const symbol = router.query.symbol || "spy";
     const page = router.query.page || 1;
-    const { data: currentUser } = useQuery(CurrentUserQuery);
+    const { data: currentUser } = useQuery(CURRENT_USER);
     const { loading, error, data, fetchMore } = useQuery(POSTS, {
       variables: {
         boardId: "ck9sdu1wl00033i89kigeocd7",

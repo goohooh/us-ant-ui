@@ -6,21 +6,11 @@ import { useQuery } from '@apollo/react-hooks';
 import actions from "../redux/actions/authActions";
 const { deauthenticate, setUser } = actions;
 import gql from 'graphql-tag'
-
-export const CurrentUserQuery = gql`
-  query CurrentUser {
-      currentUser {
-        id
-        email
-        name
-        username
-      }
-  }
-`;
+import { CURRENT_USER } from "../gql/queries";
 
 export default ({ isMenuOpened, setIsMenuOpened }) => {
     const dispatch = useDispatch();
-    const { loading, error, data } = useQuery(CurrentUserQuery);
+    const { loading, error, data } = useQuery(CURRENT_USER);
     // if (loading) return <p>Loading...</p>;
     // if (error) return <p>Error :(</p>;
     let user;

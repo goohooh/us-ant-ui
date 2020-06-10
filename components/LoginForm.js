@@ -8,45 +8,9 @@ import { useDispatch } from "react-redux";
 import Router, { useRouter } from "next/router";
 import actions from "../redux/actions/authActions";
 
-const { authenticate } = actions;
+import { SIGNIN_MUTATION, SIGNIN_GOOGLE_MUTATION, SIGNIN_FACEBOOK_MUTATION } from "../gql/mutations"
 
-const SIGNIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-        token
-        user {
-            id
-            email
-            name
-            username
-        }
-    }
-  }
-`;
-const SIGNIN_GOOGLE_MUTATION = gql`
-  mutation GoogleLogin($accessToken: String!) {
-    loginByGoogle(accessToken: $accessToken) {
-        token
-        user {
-            email
-            name
-            username
-        }
-    }
-  }
-`;
-const SIGNIN_FACEBOOK_MUTATION = gql`
-  mutation FacebookLogin($accessToken: String!) {
-    loginByFacebook(accessToken: $accessToken) {
-        token
-        user {
-            email
-            name
-            username
-        }
-    }
-  }
-`;
+const { authenticate } = actions;
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");

@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import actions from '../redux/actions';
 import { getCookie } from './cookie';
-import { CurrentUserQuery } from '../components/OffCanvas';
+import { CURRENT_USER } from "../gql/queries";
 
 // checks if the page is being loaded on the server, and if so, get auth token from the cookie:
 export default async function(ctx) {

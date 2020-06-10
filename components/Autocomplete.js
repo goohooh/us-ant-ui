@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import fetch from 'isomorphic-unfetch';
-import gql from 'graphql-tag'
 import { ApolloConsumer } from '@apollo/react-hooks';
+import { PRODUCTS } from "../gql/queries";
   
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters(str) {
@@ -23,16 +23,6 @@ function renderSuggestion(suggestion) {
     );
 }
 
-const PRODUCTS = gql`
-  query Products($term: String!) {
-    products(term: $term) {
-      id
-      symbol
-      engName
-      korName
-    }
-  }
-`;
 
 const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
  
