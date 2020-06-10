@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import Link from "next/link";
 
 import { CURRENT_USER, POST } from '../gql/queries';
 import { TOGGLE_COMMENT_LIKE } from '../gql/mutations';
