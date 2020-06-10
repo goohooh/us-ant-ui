@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import dynamic from 'next/dynamic'
 import Layout from '../../../components/Layout';
+import Loading from '../../../components/Loading';
 import { UPDATE_POST_MUTATION } from "../../../gql/mutations";
 
 const POST = gql`
@@ -35,7 +36,11 @@ const Create = ({ stock, symbol }) => {
     });
     const [updatePost] = useMutation(UPDATE_POST_MUTATION);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return (
+        <Layout stock={stock}>
+            <Loading />
+        </Layout>
+    );
     if (error) return <p>Error :(</p>;
 
     return (

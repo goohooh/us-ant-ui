@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
-import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks';
 import PostItem from './PostItem';
 import { POSTS, CURRENT_USER } from "../gql/queries";
+import Loading from "./Loading";
 
 const PostList = () => {
     const router = useRouter();
@@ -15,10 +15,9 @@ const PostList = () => {
         boardId: "ck9sdu1wl00033i89kigeocd7",
       }
     });
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading />;
     if (error) return <p>Error :(</p>;
     const posts = data.posts.edges || [];
-    const count = data.posts.totalCount;
     return (
         <div className="container p-4 pb-48">
             <div className="flex justify-between align-center py-2">

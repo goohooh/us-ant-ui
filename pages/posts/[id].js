@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import PostList from '../../components/PostList';
 import Comment from '../../components/Comment';
+import Loading from '../../components/Loading';
 import draftToHtml from 'draftjs-to-html';
 import Link from "next/link";
 
@@ -27,7 +28,12 @@ const Post = ({ stock, symbol }) => {
       }
     }
   })
-  if (loading || cloading) return <p>Loading...</p>;
+  if (loading || cloading) return (
+    <Layout stock={stock}>
+      <Loading />;
+    </Layout>
+  );
+
   if (error || cerror) return <p>Error :(</p>;
   const { post: { title, content, updatedAt, comments, likesCount, isPostLiked, user } } = data;
 

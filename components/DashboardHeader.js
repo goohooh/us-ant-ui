@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from "next/router";
 
 const headerStyle = {
   position: 'fixed',
@@ -18,9 +19,10 @@ const linkStyle = {
 };
 
 const DashboardHeader = () => {
+  const { query: { symbol = "spy" }}= useRouter();
   return (
     <div style={headerStyle} className="flex flex-row justify-center items-center shadow-sm">
-      <Link href={"/" + (location.search || "?symbol=spy")}>
+      <Link href={`/?symbol=${symbol}`}>
         <a style={linkStyle}>
           <img src="/logo.png" alt="logo" />
         </a>

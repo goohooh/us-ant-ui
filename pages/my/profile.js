@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import StandAloneLayout from "../../components/StandAloneLayout";
-import Router from "next/router";
+import Loading from "../../components/Loading";
+import Router, { useRouter } from "next/router";
 
 import { CURRENT_USER } from "../../gql/queries";
 import { SIGNUP_MUTATION } from "../../gql/mutations";
 
 export default () => {
+    const { query: { symbol = "spy" } } = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,8 +27,12 @@ export default () => {
         }
     }, [data])
 
-    if (loading) return <div>Loading...</div>
-    if (error) return Router.push("/" + location.search);
+    if (loading) return (
+        <StandAloneLayout>
+            <Loading />
+        </StandAloneLayout>
+    )
+    if (error) return Router.push(`/?symbol=${symbol}`);
 
     return (
         <StandAloneLayout>

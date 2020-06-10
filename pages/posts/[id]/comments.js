@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';
+import Loading from '../../../components/Loading';
 import { POST_AND_COMMENTS } from "../../../gql/queries";
 import { CREATE_COMMENT } from "../../../gql/mutations";
 
@@ -38,7 +39,11 @@ const Comments = () => {
         }
     });
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return (
+      <Layout hideHeader={true}>
+        <Loading />
+      </Layout>
+    );
     if (error) return <p>Error :(</p>;
 
     const { post, comments } = data;
