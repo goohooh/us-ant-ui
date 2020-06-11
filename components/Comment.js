@@ -5,34 +5,14 @@ import Link from "next/link";
 import { CURRENT_USER, POST } from '../gql/queries';
 import { TOGGLE_COMMENT_LIKE } from '../gql/mutations';
 
-export default ({ comment }) => {
+export default ({ comment, updateLike }) => {
     const router = useRouter();
     const { id } = router.query;
     const { data: currentUser } = useQuery(CURRENT_USER);
     const [toggleLike] = useMutation(TOGGLE_COMMENT_LIKE, {
         update(cache, { data: { toggleCommentLike } }) {
             if (toggleCommentLike) {
-                const { post } = cache.readQuery({ query: POST, variables: { id } });
-                const comments = { ...post.comments };
-                const edges = [...post.comments.edges];
-                const targetComment = edges.find(({ node: { id }}) => id === comment.id);
-                const targetCommentIndex = edges.findIndex(({ node: { id }}) => id === comment.id);
-                const isCommentLiked = !targetComment.node.isCommentLiked;
-                const CommentlikesCount = targetComment.node.CommentlikesCount + (isCommentLiked ? 1 : -1);
-                const newComment = {
-                    ...targetComment,
-                    node: {
-                        ...targetComment.node,
-                        isCommentLiked,
-                        CommentlikesCount,
-                    }
-                }
-                edges.splice(targetCommentIndex, 1, newComment)
-                
-                cache.writeQuery({
-                    query: POST,
-                    data: { post: { ...post, comments: { ...comments, edges } } },
-                });
+                updateLike(cache, comment);
             }
         }
     });

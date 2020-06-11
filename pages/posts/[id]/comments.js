@@ -5,16 +5,38 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';
 import Loading from '../../../components/Loading';
-import { POST_AND_COMMENTS } from "../../../gql/queries";
+import { POST_AND_COMMENTS, POST } from "../../../gql/queries";
 import { CREATE_COMMENT } from "../../../gql/mutations";
+
+const updateLike = (query, variables) => (cache, comment) => {
+  const { post, comments } = cache.readQuery({ query, variables })
+  const edges = [...comments.edges];
+  const targetComment = edges.find(({ node: { id }}) => id === comment.id);
+  const targetCommentIndex = edges.findIndex(({ node: { id }}) => id === comment.id);
+  const isCommentLiked = !targetComment.node.isCommentLiked;
+  const CommentlikesCount = targetComment.node.CommentlikesCount + (isCommentLiked ? 1 : -1);
+  const newComment = {
+      ...targetComment,
+      node: {
+          ...targetComment.node,
+          isCommentLiked,
+          CommentlikesCount,
+      }
+  }
+  edges.splice(targetCommentIndex, 1, newComment)
+  
+  cache.writeQuery({
+      query,
+      data: { ...post, comments: { ...comments, edges } },
+  });
+};
 
 const Comments = () => {
     const [text, setText] = useState("");
     const router = useRouter();
     const { id: postId, symbol = "aapl" } = router.query;
-    const { error, loading, data } = useQuery(POST_AND_COMMENTS, {
-        variables: { postId }
-    });
+    const variables = { postId };
+    const { error, loading, data } = useQuery(POST_AND_COMMENTS, { variables });
     const [createComment] = useMutation(CREATE_COMMENT, {
       update(cache, { data: { createComment }}) {
           const { comments, post } = cache.readQuery({ query: POST_AND_COMMENTS, variables: { postId }});
@@ -86,7 +108,7 @@ const Comments = () => {
             {comments.edges.length}
             {
               comments.edges.length
-                ? comments.edges.map(({ node })=> (<Comment key={node.id} comment={node} />))
+                ? comments.edges.map(({ node })=> (<Comment key={node.id} comment={node} updateLike={updateLike(POST_AND_COMMENTS, variables)} />))
                 : (<p className="text-center text-gray-600">처음 댓글을 작성해보세요!</p>)
             }
           </div>

@@ -10,10 +10,35 @@ import Link from "next/link";
 import { CURRENT_USER, POST } from "../../gql/queries";
 import { TOGGLE_POST_LIKE } from "../../gql/mutations";
 
+const updateLike = (query, variables) => (cache, comment) => {
+  const { post } = cache.readQuery({ query, variables })
+  const comments = { ...post.comments };
+  const edges = [...post.comments.edges];
+  const targetComment = edges.find(({ node: { id }}) => id === comment.id);
+  const targetCommentIndex = edges.findIndex(({ node: { id }}) => id === comment.id);
+  const isCommentLiked = !targetComment.node.isCommentLiked;
+  const CommentlikesCount = targetComment.node.CommentlikesCount + (isCommentLiked ? 1 : -1);
+  const newComment = {
+      ...targetComment,
+      node: {
+          ...targetComment.node,
+          isCommentLiked,
+          CommentlikesCount,
+      }
+  }
+  edges.splice(targetCommentIndex, 1, newComment)
+  
+  cache.writeQuery({
+      query: POST,
+      data: { post: { ...post, comments: { ...comments, edges } } },
+  });
+};
+
 const Post = ({ stock, symbol }) => {
   const router = useRouter();
   const { id } = router.query;
-  const { loading, error, data } = useQuery(POST, { variables: { id }})
+  const variables = { id };
+  const { loading, error, data } = useQuery(POST, { variables})
   const { cloading, cerror, data: currentUser } = useQuery(CURRENT_USER);
   const [toggleLike] = useMutation(TOGGLE_POST_LIKE, {
     update(cache, { data: { togglePostLike } }) {
@@ -84,7 +109,7 @@ const Post = ({ stock, symbol }) => {
         <div className="rounded bg-gray-200 p-2">
           {
             comments.edges.length
-              ? comments.edges.map(({ node })=> (<Comment key={node.id} comment={node} />))
+              ? comments.edges.map(({ node })=> (<Comment key={node.id} comment={node} updateLike={updateLike(POST, variables)} />))
               : (<p className="text-center text-gray-600">처음 댓글을 작성해보세요!</p>)
           }
         </div>
