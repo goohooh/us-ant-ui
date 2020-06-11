@@ -63,8 +63,8 @@ const LoginForm = () => {
             <div >
                 {/* <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-4 rounded">Kakao 로그인</button> */}
                 <FacebookLogin
-                    appId="679383572879991"
-                    // appId="575536876504340"
+                    // appId="679383572879991"
+                    appId="575536876504340"
                     scope="public_profile, email, user_birthday"
                     fields="name,email,picture"
                     callback={res => {
@@ -78,9 +78,9 @@ const LoginForm = () => {
                             if (loginByFacebook) {
                                 const { user, token } = loginByFacebook;
                                 dispatch(authenticate({ user, token }));
-                                setTimeout(() => {
-                                    window.location.reload()
-                                })
+                                // setTimeout(() => {
+                                //     window.location.reload()
+                                // })
                             }
                         });
                     }}

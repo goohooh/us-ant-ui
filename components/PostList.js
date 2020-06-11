@@ -2,24 +2,31 @@ import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import PostItem from './PostItem';
-import { POSTS, CURRENT_USER } from "../gql/queries";
+import { PRODUCTS, POSTS, CURRENT_USER } from "../gql/queries";
 import Loading from "./Loading";
 
 const PostList = () => {
     const router = useRouter();
-    const symbol = router.query.symbol || "spy";
-    const page = router.query.page || 1;
-    const { data: currentUser } = useQuery(CURRENT_USER);
-    const { loading, error, data, fetchMore } = useQuery(POSTS, {
+    const symbol = router.query.symbol || "aapl";
+    const { data: products } = useQuery(PRODUCTS, {
       variables: {
-        boardId: "ck9sdu1wl00033i89kigeocd7",
+        term: symbol,
+      }
+    })
+    const { data: currentUser } = useQuery(CURRENT_USER);
+    const skip = products === undefined;
+    const boardId = products && products.products.length ? products.products[0].board.id : "ck9sdu1wl00033i89kigeocd7";
+    const { loading, error, data, fetchMore } = useQuery(POSTS, {
+      skip,
+      variables: {
+        boardId,
       }
     });
     if (loading) return <Loading />;
     if (error) return <p>Error :(</p>;
-    const posts = data.posts.edges || [];
+    const posts = data ? data.posts.edges : [];
     return (
-        <div className="container p-4 pb-48">
+        <div className="container p-4 pb-8">
             <div className="flex justify-between align-center py-2">
               <h4 className="text-sm">Posts</h4>
                 {
@@ -40,7 +47,7 @@ const PostList = () => {
                 const { endCursor } = data.posts.pageInfo;
                 fetchMore({
                   variables: {
-                    boardId: "ck9sdu1wl00033i89kigeocd7",
+                    boardId,
                     cursor: endCursor
                   },
                   updateQuery: (previousResult, { fetchMoreResult }) => {

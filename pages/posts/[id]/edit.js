@@ -59,7 +59,7 @@ const Create = ({ stock, symbol }) => {
 };
 
 Create.getInitialProps = async function({ query }) {
-    const symbol = query.symbol ? query.symbol : "spy"
+    const symbol = query.symbol ? query.symbol : "aapl"
     const stock = await fetch(`https://sandbox.iexapis.com/stable/stock/${symbol}/quote?token=Tsk_c0ece87aef0b4d0691dc3c4e97f49335`)
         .then(res => res.json())
   

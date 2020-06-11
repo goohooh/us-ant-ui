@@ -18,6 +18,9 @@ export const PRODUCTS = gql`
       symbol
       engName
       korName
+      board {
+        id
+      }
     }
   }
 `;

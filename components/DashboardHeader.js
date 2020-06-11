@@ -19,7 +19,7 @@ const linkStyle = {
 };
 
 const DashboardHeader = () => {
-  const { query: { symbol = "spy" }}= useRouter();
+  const { query: { symbol = "aapl" }}= useRouter();
   return (
     <div style={headerStyle} className="flex flex-row justify-center items-center shadow-sm">
       <Link href={`/?symbol=${symbol}`}>

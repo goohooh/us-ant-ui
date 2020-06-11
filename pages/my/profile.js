@@ -8,7 +8,7 @@ import { CURRENT_USER } from "../../gql/queries";
 import { SIGNUP_MUTATION } from "../../gql/mutations";
 
 export default () => {
-    const { query: { symbol = "spy" } } = useRouter();
+    const { query: { symbol = "aapl" } } = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
