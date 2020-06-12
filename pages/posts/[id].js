@@ -123,19 +123,21 @@ const Post = ({ stock, symbol }) => {
           )
         }
       </div>
-      <PostList />
-      {
-        currentUser && (
-          <div className="container fixed bottom-0 left-0 flex justify-end w-100 py-2 px-4 bg-white rounded-t-lg shadow-upper">
-            <Link href="/posts/[id]/comments" as={`/posts/${id}/comments?symbol=${symbol}`}>
-              <a className="flex align-center">
-                <i className="material-icons">comment</i>
-                <span className="ml-1 text-red-400">{comments.totalCount}</span>
-              </a>
-            </Link>
-          </div>
-        )
-      }
+      <div className="pb-8">
+        <PostList />
+        {
+          currentUser && (
+            <div className="container fixed bottom-0 left-0 flex justify-end w-100 py-2 px-4 bg-white rounded-t-lg shadow-upper">
+              <Link href="/posts/[id]/comments" as={`/posts/${id}/comments?symbol=${symbol}`}>
+                <a className="flex align-center">
+                  <i className="material-icons">comment</i>
+                  <span className="ml-1 text-red-400">{comments.totalCount}</span>
+                </a>
+              </Link>
+            </div>
+          )
+        }
+      </div>
     </Layout>
   );
 };

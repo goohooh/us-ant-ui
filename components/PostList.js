@@ -43,7 +43,7 @@ const PostList = () => {
             ))}
             </ul>
             <div className="flex justify-center">
-              <button className="text-purple-600 bg-transparent" onClick={() => {
+              <button className="mt-2 px-4 text-purple-600 bg-transparent border border-purple-600 rounded" onClick={() => {
                 const { endCursor } = data.posts.pageInfo;
                 fetchMore({
                   variables: {
