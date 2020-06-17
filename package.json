@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -55,6 +57,13 @@
     "slate-react": "^0.57.1"
   },
   "devDependencies": {
+    "@apollo/react-testing": "^3.1.4",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "babel-jest": "^26.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^26.0.1",
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^1.2.0"
   }
