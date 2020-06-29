@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-// import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useQuery, useMutation } from "react-apollo";
 import Link from "next/link";
 import Loading from "./Loading";

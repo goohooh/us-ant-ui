@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import fetch from 'isomorphic-unfetch';
-// import { ApolloConsumer } from '@apollo/react-hooks';
 import { ApolloConsumer } from "react-apollo";
 import { PRODUCTS } from "../gql/queries";
   

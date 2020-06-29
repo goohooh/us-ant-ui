@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import { useMutation, useQuery } from '@apollo/react-hooks';
 import { useQuery, useMutation } from "react-apollo";
 import StandAloneLayout from "../../components/StandAloneLayout";
 import Loading from "../../components/Loading";

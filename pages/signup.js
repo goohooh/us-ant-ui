@@ -1,6 +1,4 @@
-import { useState } from "react";
 import gql from 'graphql-tag'
-// import { useMutation } from '@apollo/react-hooks';
 import { useMutation } from "react-apollo";
 import { useForm } from 'react-hook-form';
 import initialize from '../utils/initialize';

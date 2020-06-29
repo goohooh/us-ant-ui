@@ -1,5 +1,4 @@
 import Router from 'next/router';
-// import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useQuery, useMutation } from "react-apollo";
 import dynamic from 'next/dynamic'
 import Layout from '../../components/Layout';

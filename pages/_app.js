@@ -1,6 +1,5 @@
 import React from 'react';
 import App from 'next/app';
-// import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloProvider } from "react-apollo";
 import '../style/index.css'
 

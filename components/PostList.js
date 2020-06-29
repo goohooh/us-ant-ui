@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
-// import { useQuery } from '@apollo/react-hooks';
 import { useQuery } from "react-apollo";
 import PostItem from './PostItem';
 import { PRODUCTS, POSTS, CURRENT_USER } from "../gql/queries";

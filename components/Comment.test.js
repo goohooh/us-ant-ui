@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import { MockedProvider } from "@apollo/react-testing";
-import { act, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import { act } from "@testing-library/react";
 // import { InMemoryCache } from 'apollo-cache-inmemory';
 // import { BrowserRouter } from 'react-router-dom';
 import Comment from '../components/Comment';
@@ -59,19 +59,9 @@ describe('Render comment component', () => {
                 <Comment comment={comment} updateLike={() => {}} />
             </MockedProvider>
         );
-        // const wrapper = mount(
-        //     <MockedProvider mocks={mocks}  addTypename={false}>
-        //         <Comment comment={comment} updateLike={() => {}} />
-        //     </MockedProvider>
-        // )
-
-        // await wrapper.update();
-        // expect(wrapper).toBeTruthy();
         await act(async () => {
             await wrapper.update();
         });
         expect(wrapper).toBeTruthy();
-        // await waitForElementToBeRemoved(() => screen.getByText(/Loading/i));
-        // await act(() => p);
     })
 });

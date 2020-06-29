@@ -2,7 +2,6 @@ import LoginForm from './LoginForm';
 import Link from 'next/link';
 import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-// import { useQuery } from '@apollo/react-hooks';
 import { useQuery } from "react-apollo";
 import actions from "../redux/actions/authActions";
 const { deauthenticate, setUser } = actions;

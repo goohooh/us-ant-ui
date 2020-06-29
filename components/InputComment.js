@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from 'next/router';
-// import { useMutation } from '@apollo/react-hooks';
 import { useMutation } from "react-apollo";
 import gql from 'graphql-tag'
 
