@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+// import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from "react-apollo";
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';
 import Loading from '../../../components/Loading';

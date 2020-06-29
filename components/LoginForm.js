@@ -3,7 +3,8 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { GoogleLogin } from 'react-google-login';
 import { useState } from "react";
 import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks';
+// import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from "react-apollo";
 import { useDispatch } from "react-redux";
 import Router, { useRouter } from "next/router";
 import actions from "../redux/actions/authActions";
