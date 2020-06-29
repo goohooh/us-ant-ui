@@ -3,9 +3,7 @@ import App from 'next/app';
 import { ApolloProvider } from "react-apollo";
 import '../style/index.css'
 
-import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
-import { initStore, wrapper } from '../redux';
+import { wrapper } from '../redux';
 import initialize from '../utils/initialize';
 import withData from '../hoc/apolloClient';
 
