@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from "react-apollo";
 import Link from "next/link";
-
+import Loading from "./Loading";
 import { CURRENT_USER, POST } from '../gql/queries';
 import { TOGGLE_COMMENT_LIKE } from '../gql/mutations';
 
 export default ({ comment, updateLike }) => {
     const router = useRouter();
     const { id } = router.query;
-    const { data: currentUser } = useQuery(CURRENT_USER);
+    const { data: currentUser, loading, error } = useQuery(CURRENT_USER);
     const [toggleLike] = useMutation(TOGGLE_COMMENT_LIKE, {
         update(cache, { data: { toggleCommentLike } }) {
             if (toggleCommentLike) {
@@ -16,6 +16,9 @@ export default ({ comment, updateLike }) => {
             }
         }
     });
+
+    if (loading) return <Loading />;
+    if (error) return <p>Error :(</p>;
 
     return (
         <div className="pb-2">

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Router from 'next/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from "react-apollo";
 import gql from 'graphql-tag'
 import Layout from '../../../components/Layout';
 import Comment from '../../../components/Comment';

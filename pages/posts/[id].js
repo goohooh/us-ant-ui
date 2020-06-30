@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from "react-apollo";
 import Layout from '../../components/Layout';
 import PostList from '../../components/PostList';
 import Comment from '../../components/Comment';

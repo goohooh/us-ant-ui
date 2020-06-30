@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from "react-apollo";
 import gql from 'graphql-tag'
 import dynamic from 'next/dynamic'
 import Layout from '../../../components/Layout';
